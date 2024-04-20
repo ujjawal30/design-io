@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 
@@ -15,7 +14,7 @@ export const metadata: Metadata = {
     "A modern Figma clone built with Fabric.js and Liveblocks for real-time collaboration and design 🚀",
 };
 
-const RootLayout = ({ children }: Readonly<{ children: ReactNode }>) => {
+const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
     <html lang="en">
       <body className={cn(poppins.className, "bg-primary-grey-200")}>
