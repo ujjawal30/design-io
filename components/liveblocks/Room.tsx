@@ -1,8 +1,9 @@
 "use client";
 
 import { ReactNode } from "react";
-import { RoomProvider } from "../liveblocks.config";
 import { ClientSideSuspense } from "@liveblocks/react";
+
+import { RoomProvider } from "@/liveblocks.config";
 
 const Room = ({ children }: { children: ReactNode }) => {
   return (

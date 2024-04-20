@@ -1,10 +1,9 @@
-import Room from "./Room";
-import { CollaborativeApp } from "./CollaborativeApp";
-
-export default function Page() {
+const HomePage = () => {
   return (
-    <Room>
-      <CollaborativeApp />
-    </Room>
+    <div className="h-screen w-full flex justify-center items-center">
+      <h1 className="text-4xl text-white">HomePage</h1>
+    </div>
   );
-}
+};
+
+export default HomePage;
