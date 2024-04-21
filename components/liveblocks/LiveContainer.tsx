@@ -15,6 +15,7 @@ import LiveCursors from "@/components/liveblocks/cursors/LiveCursors";
 import CursorChat from "@/components/liveblocks/cursors/CursorChat";
 import ReactionSelector from "@/components/liveblocks/reactions/ReactionSelector";
 import FlyingReaction from "@/components/liveblocks/reactions/FlyingReaction";
+import ActiveUsers from "./users/ActiveUsers";
 
 const Live = ({ children }: { children: React.ReactElement }) => {
   const [cursorState, setCursorState] = useState<CursorState>({

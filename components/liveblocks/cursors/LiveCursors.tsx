@@ -1,12 +1,12 @@
-import { BaseUserMeta, User } from "@liveblocks/client";
+import { User } from "@liveblocks/client";
 
-import { Presence } from "@/liveblocks.config";
+import { Presence, UserMeta } from "@/liveblocks.config";
 import { COLORS } from "@/constants";
 
 import Cursor from "@/components/liveblocks/cursors/Cursor";
 
 interface LiveCursorsProps {
-  others: readonly User<Presence, BaseUserMeta>[];
+  others: readonly User<Presence, UserMeta>[];
 }
 
 const LiveCursors = ({ others }: LiveCursorsProps) => {
