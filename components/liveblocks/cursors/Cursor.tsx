@@ -16,6 +16,17 @@ const Cursor = ({ color, x, y, message }: CursorProps) => {
       }}
     >
       <MousePointer2Icon size={20} fill={color} color={color} />
+
+      {message && (
+        <div
+          className="absolute left-2 top-5 px-4 py-2 text-sm leading-relaxed text-white whitespace-nowrap rounded-2xl"
+          style={{
+            backgroundColor: color,
+          }}
+        >
+          {message}
+        </div>
+      )}
     </div>
   );
 };

@@ -1,9 +1,9 @@
 import { BaseUserMeta, User } from "@liveblocks/client";
 
+import { Presence } from "@/liveblocks.config";
 import { COLORS } from "@/constants";
-import Cursor from "@/components/liveblocks/cursors/Cursor";
 
-type Presence = any;
+import Cursor from "@/components/liveblocks/cursors/Cursor";
 
 interface LiveCursorsProps {
   others: readonly User<Presence, BaseUserMeta>[];
@@ -18,6 +18,7 @@ const LiveCursors = ({ others }: LiveCursorsProps) => {
         x={presence.cursor.x}
         y={presence.cursor.y}
         key={connectionId}
+        message={presence.message}
       />
     );
   });

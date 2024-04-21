@@ -1,11 +1,11 @@
-import Live from "@/components/liveblocks/Live";
+import LiveContainer from "@/components/liveblocks/LiveContainer";
 
 const HomePage = () => {
   return (
     <div className="h-screen w-full flex justify-center items-center">
-      <Live>
+      <LiveContainer>
         <h1 className="text-4xl text-white">HomePage</h1>
-      </Live>
+      </LiveContainer>
     </div>
   );
 };
