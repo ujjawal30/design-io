@@ -1,10 +1,16 @@
+"use client";
+
 import { useOthers, useSelf } from "@/liveblocks.config";
 
+import { cn } from "@/lib/utils";
 import Avatar from "@/components/liveblocks/users/Avatar";
+
+import styles from "./index.module.css";
 
 const ActiveUsers = () => {
   const users = useOthers();
   const currentUser = useSelf();
+
   const hasMoreUsers = users.length > 3;
 
   return (
@@ -14,7 +20,13 @@ const ActiveUsers = () => {
       ))}
 
       {hasMoreUsers && (
-        <div className="flex justify-center items-center border-4 rounded-full border-white w-12 h-12 ml-3 text-white bg-slate-600">
+        <div
+          className={cn(
+            styles.avatar,
+            "flex items-center justify-center text-lg"
+          )}
+          data-tooltip={`${users.length - 3} more user(s)`}
+        >
           +{users.length - 3}
         </div>
       )}
