@@ -1,3 +1,5 @@
+import { LucideIcon } from "lucide-react";
+
 export enum CursorMode {
   Hidden,
   Chat,
@@ -24,3 +26,9 @@ export type ReactionEvent = {
   y: number;
   value: string;
 };
+
+export type ActiveElement = {
+  name: string;
+  value: string;
+  icon: LucideIcon;
+} | null;
