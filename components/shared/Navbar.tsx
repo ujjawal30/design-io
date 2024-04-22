@@ -13,8 +13,8 @@ interface NavbarProps {
 
 const Navbar = ({ activeElement }: NavbarProps) => {
   return (
-    <nav className="flex select-none items-center justify-between gap-4 bg-primary-black text-white px-8 py-4">
-      <Image src="/logo.png" alt="logo" width={192} height={64} />
+    <nav className="flex select-none items-center justify-between gap-4 bg-primary-black text-white px-4 py-2">
+      <Image src="/logo.png" alt="logo" width={144} height={48} />
       <ActiveUsers />
     </nav>
   );
