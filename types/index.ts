@@ -29,9 +29,9 @@ export type ReactionEvent = {
 
 export type ActiveElement = {
   name: string;
-  value: string;
+  value: string | ActiveElement[];
   icon: LucideIcon;
-} | null;
+};
 
 export interface IFabricObject<T extends fabric.Object> extends fabric.Object {
   objectId?: string;

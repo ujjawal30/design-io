@@ -36,7 +36,7 @@ const ActiveUsers = () => {
 
         {currentUser && (
           <div className="relative ml-8 first:ml-0">
-            <Avatar src={currentUser.info.avatar} name="You" />
+            <Avatar src="UG" name="You" />
           </div>
         )}
       </div>
