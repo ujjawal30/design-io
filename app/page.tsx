@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { fabric } from "fabric";
 
 import Navbar from "@/components/shared/Navbar";
@@ -12,8 +12,13 @@ import {
   handleResize,
   initializeCanvas,
 } from "@/lib/canvas";
+import { ActiveElement } from "@/types";
+import { defaultNavElement } from "@/constants";
 
 const HomePage = () => {
+  const [activeElement, setActiveElement] =
+    useState<ActiveElement>(defaultNavElement);
+
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const fabricRef = useRef<fabric.Canvas | null>(null);
   const shapeRef = useRef<fabric.Object | null>(null);
@@ -38,9 +43,18 @@ const HomePage = () => {
     });
   }, []);
 
+  const handleActiveElement = (element: ActiveElement) => {
+    setActiveElement(element);
+
+    selectedShapeRef.current = element.value as string;
+  };
+
   return (
     <main className="h-screen w-full overflow-hidden flex flex-col">
-      <Navbar />
+      <Navbar
+        activeElement={activeElement}
+        handleActiveElement={handleActiveElement}
+      />
 
       <section className="flex flex-1 h-full flex-row">
         <LeftSidebar />

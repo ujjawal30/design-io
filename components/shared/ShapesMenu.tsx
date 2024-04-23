@@ -23,54 +23,37 @@ const ShapesMenu = ({
 }: ShapesMenuProps) => {
   if (typeof element.value === "string") return null;
 
-  const isDropdownElem = element.value.some(
+  const DropdownIcon = element.value.some(
     (elem) => elem?.value === activeElement.value
-  );
+  )
+    ? activeElement.icon
+    : element.icon;
 
   return (
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild className="no-ring">
-          <Button onClick={() => handleActiveElement(element)}>
-            {isDropdownElem ? (
-              <activeElement.icon size={20} className="invert" />
-            ) : (
-              <element.icon size={20} />
-            )}
-          </Button>
+          <div onClick={() => handleActiveElement(element)}>
+            <DropdownIcon size={20} />
+          </div>
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent className="mt-4 flex flex-col gap-y-1 border-none bg-primary-black py-4 text-white">
+        <DropdownMenuContent className="mt-6 flex flex-col gap-y-1 border-none bg-primary-black py-2 px-1 text-white">
           {element.value.map((elem) => (
-            <Button
+            <div
               key={elem?.name}
               onClick={() => {
                 handleActiveElement(elem);
               }}
-              className={`flex h-fit justify-between gap-10 rounded-none px-4 py-2 focus:border-none ${
+              className={`flex h-fit group items-center gap-4 rounded-none px-4 py-3 focus:border-none ${
                 activeElement.value === elem?.value
                   ? "bg-primary-purple"
                   : "hover:bg-primary-grey-200"
               }`}
             >
-              <div className="group flex items-center gap-2">
-                <elem.icon
-                  size={20}
-                  className={
-                    activeElement.value === elem?.value ? "invert" : ""
-                  }
-                />
-                <p
-                  className={`text-sm  ${
-                    activeElement.value === elem?.value
-                      ? "text-primary-black"
-                      : "text-white"
-                  }`}
-                >
-                  {elem?.name}
-                </p>
-              </div>
-            </Button>
+              <elem.icon size={20} />
+              <p className="text-sm text-white">{elem?.name}</p>
+            </div>
           ))}
         </DropdownMenuContent>
       </DropdownMenu>

@@ -15,7 +15,12 @@ interface NavbarProps {
   handleActiveElement: (element: ActiveElement) => void;
 }
 
-const Navbar = ({ activeElement }: NavbarProps) => {
+const Navbar = ({
+  activeElement,
+  handleActiveElement,
+  handleImageUpload,
+  imageInputRef,
+}: NavbarProps) => {
   const isActive = (value: string | ActiveElement[]) =>
     (activeElement && activeElement.value === value) ||
     (Array.isArray(value) &&
@@ -30,28 +35,25 @@ const Navbar = ({ activeElement }: NavbarProps) => {
           <div
             key={element.name}
             className={cn(
-              "group flex justify-center items-center p-2",
+              "group flex justify-center items-center p-4",
               isActive(element.value)
                 ? "bg-primary-purple"
                 : "hover:bg-primary-grey-200"
             )}
+            onClick={() =>
+              !Array.isArray(element.value) && handleActiveElement(element)
+            }
           >
             {Array.isArray(element.value) ? (
-              <ShapesMenu element={element} activeElement={navElements[3]} />
+              <ShapesMenu
+                element={element}
+                activeElement={activeElement}
+                handleActiveElement={handleActiveElement}
+              />
             ) : element.value === "comments" ? (
-              <Button>
-                <element.icon
-                  size={20}
-                  className={isActive(element.value) ? "invert" : ""}
-                />
-              </Button>
+              <element.icon size={20} />
             ) : (
-              <Button>
-                <element.icon
-                  size={20}
-                  className={isActive(element.value) ? "invert" : ""}
-                />
-              </Button>
+              <element.icon size={20} />
             )}
           </div>
         ))}

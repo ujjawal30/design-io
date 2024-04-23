@@ -91,7 +91,7 @@ export const navElements = [
 ];
 
 export const defaultNavElement = {
-  icon: "/assets/select.svg",
+  icon: MousePointer2Icon,
   name: "Select",
   value: "select",
 };
