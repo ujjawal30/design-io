@@ -1,4 +1,4 @@
-import { createClient } from "@liveblocks/client";
+import { LiveMap, createClient } from "@liveblocks/client";
 import { createRoomContext, createLiveblocksContext } from "@liveblocks/react";
 
 const client = createClient({
@@ -52,14 +52,17 @@ const client = createClient({
 // `user.presence` property. Must be JSON-serializable.
 export type Presence = {
   cursor: { x: number; y: number } | null;
-  message?: string;
+  cursorColor: string | null;
+  editingText: string | null;
+  message: string | null;
 };
 
 // Optionally, Storage represents the shared document that persists in the
 // Room, even after all users leave. Fields under Storage typically are
 // LiveList, LiveMap, LiveObject instances, for which updates are
 // automatically persisted and synced to all connected clients.
-type Storage = {
+export type Storage = {
+  canvasObject: LiveMap<string, any>;
   // author: LiveObject<{ firstName: string, lastName: string }>,
   // ...
 };

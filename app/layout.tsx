@@ -3,8 +3,8 @@ import { Poppins } from "next/font/google";
 
 import "./globals.css";
 
-import Room from "@/components/liveblocks/Room";
 import { cn } from "@/lib/utils";
+import Room from "@/app/Room";
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "600", "700"] });
 
