@@ -95,3 +95,12 @@ export type RenderCanvas = {
   canvasObjects: any;
   activeObjectRef: any;
 };
+
+export type KeyDown = {
+  e: KeyboardEvent;
+  canvas: fabric.Canvas | any;
+  undo: () => void;
+  redo: () => void;
+  syncShapeInStorage: (shape: fabric.Object) => void;
+  deleteShape: (id: string) => void;
+};

@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { fabric } from "fabric";
 
-import { useMutation, useStorage } from "@/liveblocks.config";
+import { useMutation, useRedo, useStorage, useUndo } from "@/liveblocks.config";
 import { ActiveElement, IFabricObject } from "@/types";
 import { defaultNavElement } from "@/constants";
 
@@ -20,7 +20,7 @@ import {
   initializeCanvas,
   renderCanvas,
 } from "@/lib/canvas";
-import { handleDelete } from "@/lib/events";
+import { handleDelete, handleKeyDown } from "@/lib/events";
 
 const HomePage = () => {
   const [activeElement, setActiveElement] =
@@ -32,6 +32,9 @@ const HomePage = () => {
   const selectedShapeRef = useRef<string | null>(null);
   const activeObjectRef = useRef<fabric.Object | null>(null);
   const isDrawing = useRef(false);
+
+  const undo = useUndo();
+  const redo = useRedo();
 
   const canvasObjects = useStorage((root) => root.canvasObject);
 
@@ -110,6 +113,17 @@ const HomePage = () => {
     window.addEventListener("resize", () => {
       handleResize(fabricRef.current);
     });
+
+    window.addEventListener("keydown", (event) =>
+      handleKeyDown({
+        e: event,
+        canvas: fabricRef.current,
+        deleteShape,
+        syncShapeInStorage,
+        redo,
+        undo,
+      })
+    );
 
     return () => {
       canvas.dispose();
