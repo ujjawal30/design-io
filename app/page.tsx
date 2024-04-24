@@ -20,6 +20,7 @@ import {
   initializeCanvas,
   renderCanvas,
 } from "@/lib/canvas";
+import { handleDelete } from "@/lib/events";
 
 const HomePage = () => {
   const [activeElement, setActiveElement] =
@@ -44,6 +45,26 @@ const HomePage = () => {
 
     const canvasObjects = storage.get("canvasObject");
     canvasObjects.set(objectId, shapeData);
+  }, []);
+
+  const deleteShape = useMutation(({ storage }, objectId) => {
+    const canvasObjects = storage.get("canvasObject");
+
+    if (!canvasObjects || !canvasObjects.has(objectId)) return;
+
+    canvasObjects.delete(objectId);
+  }, []);
+
+  const deleteAllShapes = useMutation(({ storage }) => {
+    const canvasObjects = storage.get("canvasObject");
+
+    if (!canvasObjects || canvasObjects.size === 0) return true;
+
+    for (const [key, value] of canvasObjects.entries()) {
+      canvasObjects.delete(key);
+    }
+
+    return canvasObjects.size === 0;
   }, []);
 
   useEffect(() => {
@@ -89,6 +110,10 @@ const HomePage = () => {
     window.addEventListener("resize", () => {
       handleResize(fabricRef.current);
     });
+
+    return () => {
+      canvas.dispose();
+    };
   }, []);
 
   useEffect(() => {
@@ -97,6 +122,19 @@ const HomePage = () => {
 
   const handleActiveElement = (element: ActiveElement) => {
     setActiveElement(element);
+
+    switch (element.value) {
+      case "reset":
+        deleteAllShapes();
+        fabricRef.current?.clear();
+        setActiveElement(defaultNavElement);
+        break;
+      case "delete":
+        handleDelete(fabricRef.current!, deleteShape);
+        setActiveElement(defaultNavElement);
+      default:
+        break;
+    }
 
     selectedShapeRef.current = element.value as string;
   };
