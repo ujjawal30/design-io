@@ -15,6 +15,7 @@ import {
   handleCanvasMouseDown,
   handleCanvasMouseMove,
   handleCanvasMouseUp,
+  handleCanvasObjectModified,
   handleResize,
   initializeCanvas,
   renderCanvas,
@@ -79,6 +80,10 @@ const HomePage = () => {
         setActiveElement,
         activeObjectRef,
       })
+    );
+
+    canvas.on("object:modified", (options) =>
+      handleCanvasObjectModified({ options, syncShapeInStorage })
     );
 
     window.addEventListener("resize", () => {

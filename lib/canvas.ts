@@ -4,6 +4,7 @@ import {
   CanvasMouseDown,
   CanvasMouseMove,
   CanvasMouseUp,
+  CanvasObjectModified,
   RenderCanvas,
 } from "@/types";
 import { createSpecificShape } from "@/lib/shapes";
@@ -174,6 +175,20 @@ export const handleCanvasMouseUp = ({
     setTimeout(() => {
       setActiveElement(defaultNavElement);
     }, 700);
+  }
+};
+
+export const handleCanvasObjectModified = ({
+  options,
+  syncShapeInStorage,
+}: CanvasObjectModified) => {
+  const target = options.target;
+  if (!target) return;
+
+  if (target?.type == "activeSelection") {
+    // fix this
+  } else {
+    syncShapeInStorage(target);
   }
 };
 

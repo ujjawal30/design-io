@@ -85,6 +85,11 @@ export type CanvasMouseUp = {
   setActiveElement: any;
 };
 
+export type CanvasObjectModified = {
+  options: fabric.IEvent;
+  syncShapeInStorage: (shape: fabric.Object) => void;
+};
+
 export type RenderCanvas = {
   fabricRef: React.MutableRefObject<fabric.Canvas | null>;
   canvasObjects: any;
