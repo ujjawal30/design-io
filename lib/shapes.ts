@@ -98,6 +98,8 @@ export const handleImageUpload = ({
 }: ImageUpload) => {
   const reader = new FileReader();
 
+  if (!file) return;
+
   reader.onload = () => {
     fabric.Image.fromURL(reader.result as string, (img) => {
       img.scaleToWidth(200);

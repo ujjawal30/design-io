@@ -1,5 +1,4 @@
 import { getShapeInfo } from "@/lib/utils";
-import { SquareIcon } from "lucide-react";
 
 interface LeftSidebarProps {
   shapes: any[];
@@ -17,7 +16,10 @@ const LeftSidebar = ({ shapes }: LeftSidebarProps) => {
         const { name, icon: Icon } = getShapeInfo(shape[1].type);
 
         return (
-          <div className="flex gap-4 px-4 py-3 items-center hover:bg-primary-purple hover:cursor-pointer">
+          <div
+            key={shape[0]}
+            className="flex gap-4 px-4 py-3 items-center hover:bg-primary-purple hover:cursor-pointer"
+          >
             <Icon size={20} />
             <p className="text-sm font-semibold capitalize">{name}</p>
           </div>

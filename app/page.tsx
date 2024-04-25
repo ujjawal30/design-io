@@ -21,6 +21,7 @@ import {
   renderCanvas,
 } from "@/lib/canvas";
 import { handleDelete, handleKeyDown } from "@/lib/events";
+import { handleImageUpload as handleImage } from "@/lib/shapes";
 
 const HomePage = () => {
   const [activeElement, setActiveElement] =
@@ -31,7 +32,8 @@ const HomePage = () => {
   const shapeRef = useRef<fabric.Object | null>(null);
   const selectedShapeRef = useRef<string | null>(null);
   const activeObjectRef = useRef<fabric.Object | null>(null);
-  const isDrawing = useRef(false);
+  const imageInputRef = useRef<HTMLInputElement | null>(null);
+  const isDrawing = useRef<boolean>(false);
 
   const undo = useUndo();
   const redo = useRedo();
@@ -63,7 +65,7 @@ const HomePage = () => {
 
     if (!canvasObjects || canvasObjects.size === 0) return true;
 
-    for (const [key, value] of canvasObjects.entries()) {
+    for (const [key, value] of Array.from(canvasObjects)) {
       canvasObjects.delete(key);
     }
 
@@ -138,6 +140,13 @@ const HomePage = () => {
     setActiveElement(element);
 
     switch (element.value) {
+      case "image":
+        imageInputRef.current?.click();
+        isDrawing.current = false;
+        if (fabricRef.current) {
+          fabricRef.current.isDrawingMode = false;
+        }
+        break;
       case "reset":
         deleteAllShapes();
         fabricRef.current?.clear();
@@ -153,11 +162,24 @@ const HomePage = () => {
     selectedShapeRef.current = element.value as string;
   };
 
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.stopPropagation();
+
+    handleImage({
+      file: e.target.files![0],
+      canvas: fabricRef as any,
+      shapeRef,
+      syncShapeInStorage,
+    });
+  };
+
   return (
     <main className="h-screen w-full overflow-hidden flex flex-col">
       <Navbar
         activeElement={activeElement}
         handleActiveElement={handleActiveElement}
+        imageInputRef={imageInputRef}
+        handleImageUpload={handleImageUpload}
       />
 
       <section className="flex flex-1 h-full flex-row">

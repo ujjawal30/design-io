@@ -49,6 +49,8 @@ const Navbar = ({
                 element={element}
                 activeElement={activeElement}
                 handleActiveElement={handleActiveElement}
+                imageInputRef={imageInputRef}
+                handleImageUpload={handleImageUpload}
               />
             ) : element.value === "comments" ? (
               <element.icon size={20} />
