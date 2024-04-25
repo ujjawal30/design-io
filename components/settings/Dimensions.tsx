@@ -20,8 +20,10 @@ const Dimensions = ({
   handleInputChange,
 }: DimensionsProps) => {
   return (
-    <section className="flex flex-col border-b border-primary-grey-200">
-      <div className="flex flex-col gap-4 p-4">
+    <section className="flex flex-col border-b border-primary-grey-200 p-4 gap-4">
+      <h3 className="text-[10px] uppercase">Dimensions</h3>
+
+      <div className="flex flex-col gap-4">
         {dimensionsOptions.map((item) => (
           <div key={item.label} className="flex items-center gap-4 flex-1">
             <Label htmlFor={item.property} className="text-sm font-bold w-1/6">
