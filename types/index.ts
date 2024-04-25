@@ -104,3 +104,13 @@ export type KeyDown = {
   syncShapeInStorage: (shape: fabric.Object) => void;
   deleteShape: (id: string) => void;
 };
+
+export type Attributes = {
+  width: string;
+  height: string;
+  fontSize: string;
+  fontFamily: string;
+  fontWeight: string;
+  fill: string;
+  stroke: string;
+};
