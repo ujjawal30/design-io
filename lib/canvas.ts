@@ -5,6 +5,7 @@ import {
   CanvasMouseMove,
   CanvasMouseUp,
   CanvasObjectModified,
+  CanvasSelectionCreation,
   RenderCanvas,
 } from "@/types";
 import { createSpecificShape } from "@/lib/shapes";
@@ -189,6 +190,41 @@ export const handleCanvasObjectModified = ({
     // fix this
   } else {
     syncShapeInStorage(target);
+  }
+};
+
+export const handleCanvasSelectionCreation = ({
+  options,
+  isEditing,
+  setElementAttributes,
+}: CanvasSelectionCreation) => {
+  if (isEditing.current) return;
+
+  if (!options.selected || options.selected.length === 0) return;
+
+  const selectedElement = options.selected[0] as fabric.Object;
+
+  if (selectedElement) {
+    const scaledWidth = selectedElement.scaleX
+      ? selectedElement.width! * selectedElement.scaleX
+      : selectedElement.width;
+
+    const scaledHeight = selectedElement.scaleY
+      ? selectedElement.height! * selectedElement.scaleY
+      : selectedElement.height;
+
+    setElementAttributes({
+      width: scaledWidth?.toFixed(0).toString() || "",
+      height: scaledHeight?.toFixed(0).toString() || "",
+      // @ts-ignore
+      fontSize: selectedElement.fontSize || "",
+      // @ts-ignore
+      fontFamily: selectedElement.fontFamily || "",
+      // @ts-ignore
+      fontWeight: selectedElement.fontWeight || "",
+      fill: selectedElement.fill?.toString() || "",
+      stroke: selectedElement.stroke?.toString() || "",
+    });
   }
 };
 

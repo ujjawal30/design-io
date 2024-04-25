@@ -95,3 +95,13 @@ export const defaultNavElement = {
   name: "Select",
   value: "select",
 };
+
+export const defaultAttributes = {
+  width: "",
+  height: "",
+  fontSize: "",
+  fontFamily: "",
+  fontWeight: "",
+  fill: "#aabbcc",
+  stroke: "#aabbcc",
+};

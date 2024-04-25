@@ -90,6 +90,12 @@ export type CanvasObjectModified = {
   syncShapeInStorage: (shape: fabric.Object) => void;
 };
 
+export type CanvasSelectionCreation = {
+  options: fabric.IEvent;
+  isEditing: React.MutableRefObject<boolean>;
+  setElementAttributes: React.Dispatch<React.SetStateAction<Attributes>>;
+};
+
 export type RenderCanvas = {
   fabricRef: React.MutableRefObject<fabric.Canvas | null>;
   canvasObjects: any;
