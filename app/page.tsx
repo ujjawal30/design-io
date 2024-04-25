@@ -161,7 +161,7 @@ const HomePage = () => {
       />
 
       <section className="flex flex-1 h-full flex-row">
-        <LeftSidebar />
+        <LeftSidebar shapes={Array.from(canvasObjects)} />
 
         <LiveContainer>
           <canvas ref={canvasRef} />
