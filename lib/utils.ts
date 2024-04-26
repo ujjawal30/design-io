@@ -1,3 +1,4 @@
+import jsPDF from "jspdf";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import {
@@ -104,4 +105,22 @@ export function getShapeInfo(shapeType: string) {
         name: shapeType,
       };
   }
+}
+
+export function exportToPDF() {
+  const canvas = document.querySelector("canvas");
+
+  if (!canvas) return;
+
+  const doc = new jsPDF({
+    orientation: "landscape",
+    unit: "px",
+    format: [canvas.width, canvas.height],
+  });
+
+  const data = canvas.toDataURL();
+
+  doc.addImage(data, "png", 0, 0, canvas.width, canvas.height);
+
+  doc.save("canvas.pdf");
 }
