@@ -1,3 +1,5 @@
+import { useRef } from "react";
+
 import { Attributes } from "@/types";
 import { modifyShape } from "@/lib/shapes";
 import Dimensions from "@/components/settings/Dimensions";
@@ -22,6 +24,9 @@ const RightSidebar = ({
   syncShapeInStorage,
   isEditing,
 }: RightSidebarProps) => {
+  const fillColorRef = useRef<HTMLInputElement | null>(null);
+  const strokeColorRef = useRef<HTMLInputElement | null>(null);
+
   const handleInputChange = (property: string, value: string) => {
     if (!isEditing.current) isEditing.current = true;
 
@@ -58,8 +63,19 @@ const RightSidebar = ({
         handleInputChange={handleInputChange}
       />
 
-      <Color />
-      <Color />
+      <Color
+        inputRef={fillColorRef}
+        attribute={elementAttributes.fill}
+        attributeType="fill"
+        handleInputChange={handleInputChange}
+      />
+
+      <Color
+        inputRef={strokeColorRef}
+        attribute={elementAttributes.stroke}
+        attributeType="stroke"
+        handleInputChange={handleInputChange}
+      />
       <Export />
     </section>
   );
