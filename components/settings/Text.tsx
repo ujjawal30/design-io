@@ -16,6 +16,7 @@ interface TextProps {
   fontFamily: string;
   fontSize: string;
   fontWeight: string;
+  isEditing: React.MutableRefObject<boolean>;
   handleInputChange: (property: string, value: string) => void;
 }
 
@@ -44,6 +45,7 @@ const Text = ({
   fontFamily,
   fontSize,
   fontWeight,
+  isEditing,
   handleInputChange,
 }: TextProps) => {
   return (
@@ -66,7 +68,10 @@ const Text = ({
                   : fontWeight
               }
             >
-              <SelectTrigger className="input-ring w-full rounded-sm border border-primary-grey-200">
+              <SelectTrigger
+                className="input-ring w-full rounded-sm border border-primary-grey-200"
+                onBlur={(e) => (isEditing.current = false)}
+              >
                 <SelectValue placeholder={config.placeholder} />
               </SelectTrigger>
               <SelectContent className="border-primary-grey-200 bg-primary-black text-primary-grey-300">

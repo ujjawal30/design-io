@@ -96,6 +96,11 @@ export type CanvasSelectionCreation = {
   setElementAttributes: React.Dispatch<React.SetStateAction<Attributes>>;
 };
 
+export type CanvasObjectScaling = {
+  options: fabric.IEvent;
+  setElementAttributes: React.Dispatch<React.SetStateAction<Attributes>>;
+};
+
 export type RenderCanvas = {
   fabricRef: React.MutableRefObject<fabric.Canvas | null>;
   canvasObjects: any;

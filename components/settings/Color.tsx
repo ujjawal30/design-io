@@ -4,6 +4,7 @@ interface ColorProps {
   inputRef: React.MutableRefObject<HTMLInputElement | null>;
   attribute: string;
   attributeType: string;
+  isEditing: React.MutableRefObject<boolean>;
   handleInputChange: (property: string, value: string) => void;
 }
 
@@ -11,6 +12,7 @@ const Color = ({
   inputRef,
   attribute,
   attributeType,
+  isEditing,
   handleInputChange,
 }: ColorProps) => {
   return (
@@ -26,6 +28,7 @@ const Color = ({
           value={attribute}
           ref={inputRef}
           onChange={(e) => handleInputChange(attributeType, e.target.value)}
+          onBlur={(e) => (isEditing.current = false)}
         />
         <Label className="flex-1">{attribute}</Label>
       </div>

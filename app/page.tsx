@@ -16,6 +16,7 @@ import {
   handleCanvasMouseMove,
   handleCanvasMouseUp,
   handleCanvasObjectModified,
+  handleCanvasObjectScaling,
   handleCanvasSelectionCreation,
   handleResize,
   initializeCanvas,
@@ -124,6 +125,22 @@ const HomePage = () => {
       })
     );
 
+    canvas.on("selection:updated", (options) =>
+      handleCanvasSelectionCreation({
+        options,
+        isEditing,
+        setElementAttributes,
+      })
+    );
+
+    canvas.on("selection:cleared", () =>
+      setElementAttributes(defaultAttributes)
+    );
+
+    canvas.on("object:scaling", (options) =>
+      handleCanvasObjectScaling({ options, setElementAttributes })
+    );
+
     window.addEventListener("resize", () => {
       handleResize(fabricRef.current);
     });
@@ -142,7 +159,7 @@ const HomePage = () => {
     return () => {
       canvas.dispose();
     };
-  }, []);
+  }, [canvasRef]);
 
   useEffect(() => {
     renderCanvas({ fabricRef, canvasObjects, activeObjectRef });

@@ -6,6 +6,7 @@ import {
   CanvasMouseUp,
   CanvasObjectModified,
   CanvasSelectionCreation,
+  CanvasObjectScaling,
   RenderCanvas,
 } from "@/types";
 import { createSpecificShape } from "@/lib/shapes";
@@ -198,7 +199,8 @@ export const handleCanvasSelectionCreation = ({
   isEditing,
   setElementAttributes,
 }: CanvasSelectionCreation) => {
-  if (isEditing.current) return;
+  // if (isEditing.current) return;
+  // console.log("options :>> ", options);
 
   if (!options.selected || options.selected.length === 0) return;
 
@@ -225,6 +227,29 @@ export const handleCanvasSelectionCreation = ({
       fill: selectedElement.fill?.toString() || "",
       stroke: selectedElement.stroke?.toString() || "",
     });
+  }
+};
+
+export const handleCanvasObjectScaling = ({
+  options,
+  setElementAttributes,
+}: CanvasObjectScaling) => {
+  const selectedElement = options.target;
+
+  if (selectedElement) {
+    const scaledWidth = selectedElement.scaleX
+      ? selectedElement.width! * selectedElement.scaleX
+      : selectedElement.width;
+
+    const scaledHeight = selectedElement.scaleY
+      ? selectedElement.height! * selectedElement.scaleY
+      : selectedElement.height;
+
+    setElementAttributes((prev) => ({
+      ...prev,
+      width: scaledWidth?.toFixed(0).toString() || "",
+      height: scaledHeight?.toFixed(0).toString() || "",
+    }));
   }
 };
 

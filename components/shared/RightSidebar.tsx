@@ -60,6 +60,7 @@ const RightSidebar = ({
         fontFamily={elementAttributes.fontFamily}
         fontSize={elementAttributes.fontSize}
         fontWeight={elementAttributes.fontWeight}
+        isEditing={isEditing}
         handleInputChange={handleInputChange}
       />
 
@@ -67,6 +68,7 @@ const RightSidebar = ({
         inputRef={fillColorRef}
         attribute={elementAttributes.fill}
         attributeType="fill"
+        isEditing={isEditing}
         handleInputChange={handleInputChange}
       />
 
@@ -74,6 +76,7 @@ const RightSidebar = ({
         inputRef={strokeColorRef}
         attribute={elementAttributes.stroke}
         attributeType="stroke"
+        isEditing={isEditing}
         handleInputChange={handleInputChange}
       />
       <Export />
