@@ -59,7 +59,7 @@ export const createText = (pointer: PointerEvent, text: string) => {
     top: pointer.y,
     fill: "#aabbcc",
     fontFamily: "Helvetica",
-    fontSize: 36,
+    fontSize: 24,
     fontWeight: "400",
     objectId: uuidv4(),
   } as fabric.ITextOptions);
