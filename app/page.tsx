@@ -220,7 +220,7 @@ const HomePage = () => {
       />
 
       <section className="flex flex-1 h-full flex-row">
-        <LeftSidebar shapes={Array.from(canvasObjects)} />
+        <LeftSidebar shapes={Array.from(canvasObjects)} fabricRef={fabricRef} />
 
         <LiveContainer>
           <canvas ref={canvasRef} />
