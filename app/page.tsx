@@ -16,6 +16,7 @@ import {
   handleCanvasMouseMove,
   handleCanvasMouseUp,
   handleCanvasObjectModified,
+  handleCanvasObjectMoving,
   handleCanvasObjectScaling,
   handleCanvasSelectionCreation,
   handlePathCreated,
@@ -114,13 +115,15 @@ const HomePage = () => {
       })
     );
 
+    canvas.on("object:modified", (options) =>
+      handleCanvasObjectModified({ options, syncShapeInStorage })
+    );
+
     canvas.on("path:created", (options) =>
       handlePathCreated({ options, syncShapeInStorage })
     );
 
-    canvas.on("object:modified", (options) =>
-      handleCanvasObjectModified({ options, syncShapeInStorage })
-    );
+    canvas.on("object:moving", (options) => handleCanvasObjectMoving(options));
 
     canvas.on("selection:created", (options) =>
       handleCanvasSelectionCreation({
