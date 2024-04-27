@@ -7,6 +7,7 @@ import { navElements } from "@/constants";
 import ShapesMenu from "./ShapesMenu";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
+import NewComment from "../liveblocks/comments/NewComment";
 
 interface NavbarProps {
   activeElement: ActiveElement;
@@ -53,7 +54,9 @@ const Navbar = ({
                 handleImageUpload={handleImageUpload}
               />
             ) : element.value === "comments" ? (
-              <element.icon size={20} />
+              <NewComment>
+                <element.icon size={20} />
+              </NewComment>
             ) : (
               <element.icon size={20} />
             )}
