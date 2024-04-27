@@ -15,7 +15,7 @@ import LiveCursors from "@/components/liveblocks/cursors/LiveCursors";
 import CursorChat from "@/components/liveblocks/cursors/CursorChat";
 import ReactionSelector from "@/components/liveblocks/reactions/ReactionSelector";
 import FlyingReaction from "@/components/liveblocks/reactions/FlyingReaction";
-import ActiveUsers from "./users/ActiveUsers";
+import Comments from "@/components/liveblocks/comments/Comments";
 
 const Live = ({ children }: { children: React.ReactElement }) => {
   const [cursorState, setCursorState] = useState<CursorState>({
@@ -163,6 +163,7 @@ const Live = ({ children }: { children: React.ReactElement }) => {
       onPointerLeave={handlePointerLeave}
     >
       {children}
+
       {cursor && (
         <CursorChat
           cursor={cursor}
@@ -171,6 +172,7 @@ const Live = ({ children }: { children: React.ReactElement }) => {
           updateMyPresence={updateMyPresence}
         />
       )}
+
       {reactions.map((reaction) => (
         <FlyingReaction
           key={reaction.timestamp.toString()}
@@ -180,10 +182,14 @@ const Live = ({ children }: { children: React.ReactElement }) => {
           value={reaction.value}
         />
       ))}
+
       {cursorState.mode === CursorMode.ReactionSelector && (
         <ReactionSelector setReaction={setReaction} />
       )}
+
       <LiveCursors others={others} />
+
+      <Comments />
     </div>
   );
 };
