@@ -1,4 +1,5 @@
 import { fabric } from "fabric";
+import { v4 as uuid4 } from "uuid";
 
 import {
   CanvasMouseDown,
@@ -8,6 +9,7 @@ import {
   CanvasSelectionCreation,
   CanvasObjectScaling,
   RenderCanvas,
+  CanvasPathCreated,
 } from "@/types";
 import { createSpecificShape } from "@/lib/shapes";
 import { defaultNavElement } from "@/constants";
@@ -192,6 +194,23 @@ export const handleCanvasObjectModified = ({
   } else {
     syncShapeInStorage(target);
   }
+};
+
+export const handlePathCreated = ({
+  options,
+  syncShapeInStorage,
+}: CanvasPathCreated) => {
+  // get path object
+  const path = options.path;
+  if (!path) return;
+
+  // set unique id to path object
+  path.set({
+    objectId: uuid4(),
+  });
+
+  // sync shape in storage
+  syncShapeInStorage(path);
 };
 
 export const handleCanvasSelectionCreation = ({

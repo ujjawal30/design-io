@@ -90,6 +90,11 @@ export type CanvasObjectModified = {
   syncShapeInStorage: (shape: fabric.Object) => void;
 };
 
+export type CanvasPathCreated = {
+  options: (fabric.IEvent & { path: IFabricObject<fabric.Path> }) | any;
+  syncShapeInStorage: (shape: fabric.Object) => void;
+};
+
 export type CanvasSelectionCreation = {
   options: fabric.IEvent;
   isEditing: React.MutableRefObject<boolean>;

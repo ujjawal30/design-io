@@ -18,6 +18,7 @@ import {
   handleCanvasObjectModified,
   handleCanvasObjectScaling,
   handleCanvasSelectionCreation,
+  handlePathCreated,
   handleResize,
   initializeCanvas,
   renderCanvas,
@@ -111,6 +112,10 @@ const HomePage = () => {
         setActiveElement,
         activeObjectRef,
       })
+    );
+
+    canvas.on("path:created", (options) =>
+      handlePathCreated({ options, syncShapeInStorage })
     );
 
     canvas.on("object:modified", (options) =>
