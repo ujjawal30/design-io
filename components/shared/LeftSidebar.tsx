@@ -1,8 +1,9 @@
 import { cn, getShapeInfo } from "@/lib/utils";
 import { IFabricObject } from "@/types";
+import { useEffect } from "react";
 
 interface LeftSidebarProps {
-  shapes: any[];
+  shapes: Array<any>;
   fabricRef: React.MutableRefObject<fabric.Canvas | null>;
 }
 
@@ -11,8 +12,11 @@ const LeftSidebar = ({ shapes, fabricRef }: LeftSidebarProps) => {
     // @ts-ignore
     fabricRef.current?.getActiveObject()?.objectId === objectId;
 
-  const handleClick = (object: fabric.Object) => {
-    fabricRef.current?.setActiveObject(object);
+  const handleClick = (index: number) => {
+    const clickedObject = fabricRef.current?.item(index);
+
+    // @ts-ignore
+    fabricRef.current?.setActiveObject(clickedObject);
     fabricRef.current?.renderAll();
   };
 
@@ -22,17 +26,17 @@ const LeftSidebar = ({ shapes, fabricRef }: LeftSidebarProps) => {
         Elements
       </h3>
 
-      {fabricRef.current?._objects.map((object: IFabricObject<any>) => {
-        const { name, icon: Icon } = getShapeInfo(object?.type!);
+      {shapes.map(([key, value]: any, index) => {
+        const { name, icon: Icon } = getShapeInfo(value?.type!);
 
         return (
           <div
-            key={object.objectId}
+            key={key}
             className={cn(
               "flex gap-4 px-4 py-3 items-center hover:bg-primary-purple hover:cursor-pointer",
-              isActive(object.objectId!) && "bg-primary-purple"
+              isActive(key) && "bg-primary-purple"
             )}
-            onClick={() => handleClick(object)}
+            onClick={() => handleClick(index)}
           >
             <Icon size={20} />
             <p className="text-sm font-semibold capitalize">{name}</p>
