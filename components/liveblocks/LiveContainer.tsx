@@ -89,10 +89,16 @@ const LiveContainer = ({ children, undo, redo }: LiveContainerProps) => {
     event.preventDefault();
 
     if (cursor == null || cursorState.mode !== CursorMode.ReactionSelector) {
+      const overlayPanel = document.querySelector("#canvas");
+      if (overlayPanel == null) {
+        return;
+      }
+      const { top, left } = overlayPanel.getBoundingClientRect();
+
       updateMyPresence({
         cursor: {
-          x: Math.round(event.clientX),
-          y: Math.round(event.clientY),
+          x: Math.round(event.clientX) - left,
+          y: Math.round(event.clientY) - top,
         },
       });
     }
@@ -100,10 +106,16 @@ const LiveContainer = ({ children, undo, redo }: LiveContainerProps) => {
 
   const handlePointerDown = useCallback(
     (event: React.PointerEvent) => {
+      const overlayPanel = document.querySelector("#canvas");
+      if (overlayPanel == null) {
+        return;
+      }
+      const { top, left } = overlayPanel.getBoundingClientRect();
+
       updateMyPresence({
         cursor: {
-          x: Math.round(event.clientX),
-          y: Math.round(event.clientY),
+          x: Math.round(event.clientX) - left,
+          y: Math.round(event.clientY) - top,
         },
       });
 
@@ -189,7 +201,7 @@ const LiveContainer = ({ children, undo, redo }: LiveContainerProps) => {
 
   return (
     <CustomContextMenu
-      className="relative flex-1 h-full w-full flex justify-center items-center"
+      className="relative flex-1 w-full flex justify-center items-center"
       handleContextMenuTrigger={handleContextMenuTrigger}
       id="canvas"
       onPointerMove={handlePointerMove}
