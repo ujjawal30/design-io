@@ -219,10 +219,10 @@ const HomePage = () => {
         handleImageUpload={handleImageUpload}
       />
 
-      <section className="flex flex-1 h-full flex-row">
+      <section className="relative flex flex-1 h-full flex-row">
         <LeftSidebar shapes={Array.from(canvasObjects)} fabricRef={fabricRef} />
 
-        <LiveContainer>
+        <LiveContainer undo={undo} redo={redo}>
           <canvas ref={canvasRef} />
         </LiveContainer>
 

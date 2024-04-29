@@ -16,8 +16,15 @@ import CursorChat from "@/components/liveblocks/cursors/CursorChat";
 import ReactionSelector from "@/components/liveblocks/reactions/ReactionSelector";
 import FlyingReaction from "@/components/liveblocks/reactions/FlyingReaction";
 import Comments from "@/components/liveblocks/comments/Comments";
+import CustomContextMenu from "../shared/CustomContextMenu";
 
-const Live = ({ children }: { children: React.ReactElement }) => {
+interface LiveContainerProps {
+  children: React.ReactElement;
+  undo: () => void;
+  redo: () => void;
+}
+
+const LiveContainer = ({ children, undo, redo }: LiveContainerProps) => {
   const [cursorState, setCursorState] = useState<CursorState>({
     mode: CursorMode.Hidden,
   });
@@ -121,6 +128,33 @@ const Live = ({ children }: { children: React.ReactElement }) => {
     updateMyPresence({ cursor: null });
   }, []);
 
+  const handleContextMenuTrigger = useCallback((command: string) => {
+    switch (command) {
+      case "Chat":
+        setCursorState({
+          mode: CursorMode.Chat,
+          previousMessage: null,
+          message: "",
+        });
+        break;
+
+      case "Reactions":
+        setCursorState({ mode: CursorMode.ReactionSelector });
+        break;
+
+      case "Undo":
+        undo();
+        break;
+
+      case "Redo":
+        redo();
+        break;
+
+      default:
+        break;
+    }
+  }, []);
+
   useEffect(() => {
     const onKeyUp = (e: KeyboardEvent) => {
       console.log("e.key :>> ", e.key);
@@ -154,44 +188,47 @@ const Live = ({ children }: { children: React.ReactElement }) => {
   }, [updateMyPresence]);
 
   return (
-    <div
-      id="canvas"
+    <CustomContextMenu
       className="relative flex-1 h-full w-full flex justify-center items-center"
+      handleContextMenuTrigger={handleContextMenuTrigger}
+      id="canvas"
       onPointerMove={handlePointerMove}
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
       onPointerLeave={handlePointerLeave}
     >
-      {children}
+      <div>
+        {children}
 
-      {cursor && (
-        <CursorChat
-          cursor={cursor}
-          cursorState={cursorState}
-          setCursorState={setCursorState}
-          updateMyPresence={updateMyPresence}
-        />
-      )}
+        {cursor && (
+          <CursorChat
+            cursor={cursor}
+            cursorState={cursorState}
+            setCursorState={setCursorState}
+            updateMyPresence={updateMyPresence}
+          />
+        )}
 
-      {reactions.map((reaction) => (
-        <FlyingReaction
-          key={reaction.timestamp.toString()}
-          x={reaction.point.x}
-          y={reaction.point.y}
-          timestamp={reaction.timestamp}
-          value={reaction.value}
-        />
-      ))}
+        {reactions.map((reaction) => (
+          <FlyingReaction
+            key={reaction.timestamp.toString()}
+            x={reaction.point.x}
+            y={reaction.point.y}
+            timestamp={reaction.timestamp}
+            value={reaction.value}
+          />
+        ))}
 
-      {cursorState.mode === CursorMode.ReactionSelector && (
-        <ReactionSelector setReaction={setReaction} />
-      )}
+        {cursorState.mode === CursorMode.ReactionSelector && (
+          <ReactionSelector setReaction={setReaction} />
+        )}
 
-      <LiveCursors others={others} />
+        <LiveCursors others={others} />
 
-      <Comments />
-    </div>
+        <Comments />
+      </div>
+    </CustomContextMenu>
   );
 };
 
-export default Live;
+export default LiveContainer;

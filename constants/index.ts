@@ -3,14 +3,18 @@ import {
   CircleIcon,
   ImageIcon,
   MessageCircleIcon,
+  MessageCircleMoreIcon,
   MousePointer2Icon,
   PentagonIcon,
+  RedoIcon,
   RotateCwIcon,
   SlashIcon,
+  SmilePlus,
   SquareIcon,
   TrashIcon,
   TriangleIcon,
   TypeIcon,
+  UndoIcon,
 } from "lucide-react";
 
 export const COLORS = [
@@ -184,5 +188,28 @@ export const fontWeightOptions = [
   {
     value: "600",
     label: "Bold",
+  },
+];
+
+export const contextMenuCommands = [
+  {
+    label: "Chat",
+    shortcut: "/",
+    icon: MessageCircleMoreIcon,
+  },
+  {
+    label: "Undo",
+    shortcut: "Ctrl + Z",
+    icon: UndoIcon,
+  },
+  {
+    label: "Redo",
+    shortcut: "Ctrl + Y",
+    icon: RedoIcon,
+  },
+  {
+    label: "Reactions",
+    shortcut: "E",
+    icon: SmilePlus,
   },
 ];
