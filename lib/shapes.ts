@@ -43,14 +43,11 @@ export const createCircle = (pointer: PointerEvent) => {
 };
 
 export const createLine = (pointer: PointerEvent) => {
-  return new fabric.Line(
-    [pointer.x, pointer.y, pointer.x + 100, pointer.y + 100],
-    {
-      stroke: "#aabbcc",
-      strokeWidth: 2,
-      objectId: uuidv4(),
-    } as IFabricObject<fabric.Line>
-  );
+  return new fabric.Line([pointer.x, pointer.y, pointer.x + 100, pointer.y], {
+    stroke: "#aabbcc",
+    strokeWidth: 2,
+    objectId: uuidv4(),
+  } as IFabricObject<fabric.Line>);
 };
 
 export const createText = (pointer: PointerEvent, text: string) => {

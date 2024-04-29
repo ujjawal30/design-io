@@ -156,7 +156,7 @@ const Live = ({ children }: { children: React.ReactElement }) => {
   return (
     <div
       id="canvas"
-      className="flex-1 w-full flex justify-center items-center"
+      className="relative flex-1 h-full w-full flex justify-center items-center"
       onPointerMove={handlePointerMove}
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}
