@@ -12,4 +12,8 @@
   .input-ring {
     @apply h-8 rounded-none border-none bg-transparent outline-none ring-offset-0 focus:ring-1 focus:ring-primary-purple focus:ring-offset-0 focus-visible:ring-offset-0 !important;
   }
+
+  .auth-input {
+    @apply text-white bg-primary-grey-200 border-0 outline-none ring-offset-0 focus:ring-1 focus:ring-primary-purple focus:ring-offset-0 focus-visible:ring-offset-0 !important;
+  }
 }
