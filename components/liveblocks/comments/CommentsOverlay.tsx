@@ -1,6 +1,5 @@
 "use client";
 
-import { ThreadData } from "@liveblocks/client";
 import { useThreads } from "@/liveblocks.config";
 import PinnedComment from "./PinnedComment";
 import { useMaxZIndex } from "@/hooks/useMaxZIndex";

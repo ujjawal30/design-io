@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { fabric } from "fabric";
 
 import { useMutation, useRedo, useStorage, useUndo } from "@/liveblocks.config";
-import { ActiveElement, Attributes, IFabricObject } from "@/types";
+import { ActiveElement, Attributes } from "@/types";
 import { defaultAttributes, defaultNavElement } from "@/constants";
 
 import Navbar from "@/components/shared/Navbar";

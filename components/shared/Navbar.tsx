@@ -2,12 +2,11 @@ import { memo } from "react";
 import Image from "next/image";
 
 import { ActiveElement } from "@/types";
-import ActiveUsers from "@/components/liveblocks/users/ActiveUsers";
 import { navElements } from "@/constants";
-import ShapesMenu from "./ShapesMenu";
-import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
-import NewComment from "../liveblocks/comments/NewComment";
+import ActiveUsers from "@/components/liveblocks/users/ActiveUsers";
+import ShapesMenu from "@/components/shared/ShapesMenu";
+import NewComment from "@/components/liveblocks/comments/NewComment";
 
 interface NavbarProps {
   activeElement: ActiveElement;

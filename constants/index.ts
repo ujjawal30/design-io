@@ -1,4 +1,3 @@
-import { ActiveElement } from "@/types";
 import {
   CircleIcon,
   ImageIcon,

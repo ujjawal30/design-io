@@ -9,8 +9,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
-import { Label } from "../ui/label";
+} from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
 
 interface TextProps {
   fontFamily: string;

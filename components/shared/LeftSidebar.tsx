@@ -1,6 +1,4 @@
 import { cn, getShapeInfo } from "@/lib/utils";
-import { IFabricObject } from "@/types";
-import { useEffect } from "react";
 
 interface LeftSidebarProps {
   shapes: Array<any>;

@@ -1,5 +1,5 @@
 import { exportToPDF } from "@/lib/utils";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 
 const Export = () => {
   return (

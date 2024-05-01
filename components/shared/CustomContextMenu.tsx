@@ -1,3 +1,4 @@
+import { contextMenuCommands } from "@/constants";
 import {
   ContextMenu,
   ContextMenuContent,
@@ -5,7 +6,6 @@ import {
   ContextMenuShortcut,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
-import { contextMenuCommands } from "@/constants";
 
 interface CustomContextMenuProps {
   children: React.ReactElement;
