@@ -41,7 +41,7 @@ export const registerUser = async ({
     response.status = true;
     response.message = "Account created successfully.";
   } catch (error) {
-    console.log("[REGISTER_USER_ERROR] :>> ", error);
+    console.error("[REGISTER_USER_ERROR] :>> ", error);
     response.message = "Somethng went wrong. Please try again!";
   }
 
@@ -84,7 +84,7 @@ export const authenticateUser = async ({
       response.message = "Password you entered is incorrect.";
     }
   } catch (error) {
-    console.log("[AUTHENTICATE_USER_ERROR] :>> ", error);
+    console.error("[AUTHENTICATE_USER_ERROR] :>> ", error);
     response.message = "Somethng went wrong. Please try again!";
   }
 
