@@ -1,5 +1,7 @@
-import User, { IUser } from "../models/user.model";
-import { connectToDatabase } from "../mongoose";
+"use server";
+
+import User, { IUser } from "@/lib/models/user.model";
+import { connectToDatabase } from "@/lib/mongoose";
 
 export const registerUser = async ({
   name,

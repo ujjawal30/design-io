@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -11,11 +13,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 const LoginForm = () => {
+  const router = useRouter();
   const form = useForm<LoginSchemaType>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -24,8 +27,29 @@ const LoginForm = () => {
     },
   });
 
-  const onSubmit = (data: LoginSchemaType) => {
+  const onSubmit = async (data: LoginSchemaType) => {
     console.log("data :>> ", data);
+    const signInResponse = await signIn("credentials", {
+      ...data,
+      redirect: false,
+    });
+
+    if (signInResponse?.ok) {
+      router.push("/");
+    } else {
+      form.setError("root", {
+        message: signInResponse?.error!,
+      });
+      form.resetField("password");
+    }
+  };
+
+  const onInputChange = (
+    value: string,
+    onFieldChange: (value: string) => void
+  ) => {
+    onFieldChange(value);
+    form.clearErrors("root");
   };
 
   return (
@@ -41,10 +65,13 @@ const LoginForm = () => {
               </FormLabel>
               <FormControl>
                 <Input
+                  {...field}
                   className="auth-input"
                   placeholder="E-mail"
                   type="email"
-                  {...field}
+                  onChange={(e) =>
+                    onInputChange(e.target.value, field.onChange)
+                  }
                 />
               </FormControl>
               <FormMessage />
@@ -61,16 +88,20 @@ const LoginForm = () => {
               </FormLabel>
               <FormControl>
                 <Input
+                  {...field}
                   className="auth-input"
                   placeholder="Password"
                   type="password"
-                  {...field}
+                  onChange={(e) =>
+                    onInputChange(e.target.value, field.onChange)
+                  }
                 />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
+        <FormMessage>{form.formState.errors.root?.message}</FormMessage>
         <Button
           className="w-full bg-primary-purple font-semibold !mt-6"
           type="submit"

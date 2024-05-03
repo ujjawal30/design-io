@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -7,6 +9,7 @@ import {
   RegisterSchema,
   RegisterSchemaType,
 } from "@/lib/schemas/register.schema";
+import { registerUser } from "@/lib/actions/user.actions";
 import {
   Form,
   FormControl,
@@ -14,11 +17,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
-import { Button } from "../ui/button";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 const RegisterForm = () => {
+  const router = useRouter();
   const form = useForm<RegisterSchemaType>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -29,8 +33,40 @@ const RegisterForm = () => {
     },
   });
 
-  const onSubmit = (data: RegisterSchemaType) => {
+  const onSubmit = async (data: RegisterSchemaType) => {
     console.log("data :>> ", data);
+    const registerUserResponse = await registerUser(data);
+    console.log("registerUserResponse :>> ", registerUserResponse);
+
+    if (registerUserResponse.status) {
+      const signInResponse = await signIn("credentials", {
+        ...data,
+        redirect: false,
+      });
+
+      if (signInResponse?.ok) {
+        router.push("/");
+      } else {
+        form.setError("root", {
+          message: signInResponse?.error!,
+        });
+      }
+    } else {
+      form.setError("root", {
+        message: registerUserResponse.message,
+      });
+    }
+
+    form.resetField("password");
+    form.resetField("confirmPassword");
+  };
+
+  const onInputChange = (
+    value: string,
+    onFieldChange: (value: string) => void
+  ) => {
+    onFieldChange(value);
+    form.clearErrors("root");
   };
 
   return (
@@ -45,7 +81,14 @@ const RegisterForm = () => {
                 Name
               </FormLabel>
               <FormControl>
-                <Input className="auth-input" placeholder="Name" {...field} />
+                <Input
+                  {...field}
+                  className="auth-input"
+                  placeholder="Name"
+                  onChange={(e) =>
+                    onInputChange(e.target.value, field.onChange)
+                  }
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -61,10 +104,13 @@ const RegisterForm = () => {
               </FormLabel>
               <FormControl>
                 <Input
+                  {...field}
                   className="auth-input"
                   placeholder="E-mail"
                   type="email"
-                  {...field}
+                  onChange={(e) =>
+                    onInputChange(e.target.value, field.onChange)
+                  }
                 />
               </FormControl>
               <FormMessage />
@@ -82,10 +128,13 @@ const RegisterForm = () => {
                 </FormLabel>
                 <FormControl>
                   <Input
+                    {...field}
                     className="auth-input"
                     placeholder="Password"
                     type="password"
-                    {...field}
+                    onChange={(e) =>
+                      onInputChange(e.target.value, field.onChange)
+                    }
                   />
                 </FormControl>
                 <FormMessage />
@@ -102,10 +151,13 @@ const RegisterForm = () => {
                 </FormLabel>
                 <FormControl>
                   <Input
+                    {...field}
                     className="auth-input"
                     placeholder="Confirm Password"
                     type="password"
-                    {...field}
+                    onChange={(e) =>
+                      onInputChange(e.target.value, field.onChange)
+                    }
                   />
                 </FormControl>
                 <FormMessage />
@@ -113,6 +165,7 @@ const RegisterForm = () => {
             )}
           />
         </div>
+        <FormMessage>{form.formState.errors.root?.message}</FormMessage>
         <Button
           className="w-full bg-primary-purple font-semibold !mt-6"
           type="submit"
