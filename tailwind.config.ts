@@ -29,6 +29,9 @@ const config = {
           },
         },
       },
+      boxShadow: {
+        canvas: "inset 0px 0px 32px 0px rgb(0 0 0 / 0.1)",
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },

@@ -201,7 +201,7 @@ const LiveContainer = ({ children, undo, redo }: LiveContainerProps) => {
 
   return (
     <CustomContextMenu
-      className="relative flex-1 w-full flex justify-center items-center"
+      className="relative flex-1 w-full flex justify-center items-center shadow-inner"
       handleContextMenuTrigger={handleContextMenuTrigger}
       id="canvas"
       onPointerMove={handlePointerMove}
@@ -209,7 +209,7 @@ const LiveContainer = ({ children, undo, redo }: LiveContainerProps) => {
       onPointerUp={handlePointerUp}
       onPointerLeave={handlePointerLeave}
     >
-      <div>
+      <div className="shadow-canvas shadow-primary-black">
         {children}
 
         {cursor && (
