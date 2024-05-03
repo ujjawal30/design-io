@@ -14,3 +14,9 @@ declare type AuthenticateUserParams = {
   email: string;
   password: string;
 };
+
+declare type RegisterDesignParams = {
+  title: string;
+  description: string;
+  userId: string;
+};
