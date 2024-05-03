@@ -20,3 +20,8 @@ declare type RegisterDesignParams = {
   description: string;
   userId: string;
 };
+
+declare type FetchDesignParams = {
+  designId: string;
+  populate?: boolean;
+};
