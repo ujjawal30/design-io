@@ -36,6 +36,13 @@ const handler = NextAuth({
     signIn: "/auth/login",
   },
 
+  secret: process.env.NEXTAUTH_SECRET,
+
+  session: {
+    maxAge: 7 * 24 * 60 * 60, // 7 days
+    updateAge: 24 * 60 * 60,
+  },
+
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
       console.log("&&&&&&&&&&&&&&&&&& SignIn &&&&&&&&&&&&&&&&&&&&&&&&&");

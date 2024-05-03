@@ -26,6 +26,7 @@ import {
 } from "@/lib/canvas";
 import { handleDelete, handleKeyDown } from "@/lib/events";
 import { handleImageUpload as handleImage } from "@/lib/shapes";
+import { useSession } from "next-auth/react";
 
 const HomePage = () => {
   const [activeElement, setActiveElement] =
@@ -44,6 +45,9 @@ const HomePage = () => {
 
   const undo = useUndo();
   const redo = useRedo();
+
+  const { data: session, status } = useSession();
+  console.log("session :>> ", session, status);
 
   const canvasObjects = useStorage((root) => root.canvasObject);
 
