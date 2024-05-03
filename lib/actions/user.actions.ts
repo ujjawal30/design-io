@@ -81,7 +81,7 @@ export const authenticateUser = async ({
     if (isPasswordCorrect) {
       response.status = true;
       response.message = "Logged-in successfully.";
-      response.data = user;
+      response.data = JSON.parse(JSON.stringify(user));
     } else {
       response.message = "Password you entered is incorrect.";
     }
