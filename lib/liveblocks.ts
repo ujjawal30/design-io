@@ -7,6 +7,6 @@ if (!LIVEBLOCKS_SECRET_KEY)
     "Please define the LIVEBLOCKS_SECRET_KEY environment variable inside .env.local"
   );
 
-export const liveblock = new Liveblocks({
+export const liveblocks = new Liveblocks({
   secret: LIVEBLOCKS_SECRET_KEY,
 });
