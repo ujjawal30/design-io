@@ -4,7 +4,6 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 
 import { cn } from "@/lib/utils";
-import Room from "@/app/Room";
 import NextAuthProvider from "@/contexts/NextAuthProvider";
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "600", "700"] });
@@ -19,9 +18,7 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
     <html lang="en">
       <body className={cn(poppins.className, "bg-primary-grey-200")}>
-        <NextAuthProvider>
-          <Room>{children}</Room>
-        </NextAuthProvider>
+        <NextAuthProvider>{children}</NextAuthProvider>
       </body>
     </html>
   );

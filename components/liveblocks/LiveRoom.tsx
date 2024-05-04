@@ -1,15 +1,19 @@
 "use client";
 
-import { ReactNode } from "react";
 import { ClientSideSuspense } from "@liveblocks/react";
 
 import { RoomProvider } from "@/liveblocks.config";
 import { LiveMap } from "@liveblocks/client";
 
-const Room = ({ children }: { children: ReactNode }) => {
+interface LiveRoomProps {
+  id: string;
+  children: React.ReactNode;
+}
+
+const LiveRoom = ({ id, children }: LiveRoomProps) => {
   return (
     <RoomProvider
-      id="my-room"
+      id={id}
       initialPresence={{
         cursor: null,
         cursorColor: null,
@@ -25,4 +29,4 @@ const Room = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export default Room;
+export default LiveRoom;

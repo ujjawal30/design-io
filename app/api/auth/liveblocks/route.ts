@@ -34,12 +34,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
           status: 401,
         });
 
-      const userInfo: UserMeta = {
-        id: session.user.id,
-        info: {
-          name: session.user.name,
-          avatar: session.user.photo,
-        },
+      const userInfo = {
+        name: session.user.name,
+        avatar: session.user.photo,
       };
 
       const liveblocksSession = liveblocks.prepareSession(session.user.id, {
