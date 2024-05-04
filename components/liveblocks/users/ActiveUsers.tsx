@@ -19,13 +19,7 @@ const ActiveUsers = () => {
     () => (
       <div className="flex pl-3">
         {users.slice(0, 3).map(({ connectionId, info }) => (
-          <Avatar
-            key={connectionId}
-            src={`https://liveblocks.io/avatars/avatar-${Math.floor(
-              Math.random() * 30
-            )}.png`}
-            name={generateRandomName()}
-          />
+          <Avatar key={connectionId} src={info.avatar} name={info.name} />
         ))}
 
         {hasMoreUsers && (
@@ -42,7 +36,10 @@ const ActiveUsers = () => {
 
         {currentUser && (
           <div className="relative ml-8 first:ml-0">
-            <Avatar src="UG" name="You" />
+            <Avatar
+              src={currentUser.info.avatar}
+              name={currentUser.info.name}
+            />
           </div>
         )}
       </div>
