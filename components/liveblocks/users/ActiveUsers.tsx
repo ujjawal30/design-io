@@ -1,13 +1,14 @@
 "use client";
 
+import styles from "./index.module.css";
+
 import { useMemo } from "react";
 
 import { useOthers, useSelf } from "@/liveblocks.config";
-import { cn, generateRandomName } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 import Avatar from "@/components/liveblocks/users/Avatar";
-
-import styles from "./index.module.css";
+import AccountMenu from "@/components/menus/AccountMenu";
 
 const ActiveUsers = () => {
   const users = useOthers();
@@ -35,12 +36,14 @@ const ActiveUsers = () => {
         )}
 
         {currentUser && (
-          <div className="relative ml-8 first:ml-0">
-            <Avatar
-              src={currentUser.info.avatar}
-              name={currentUser.info.name}
-            />
-          </div>
+          <AccountMenu name={currentUser.info.name}>
+            <div className="relative ml-8 first:ml-0">
+              <Avatar
+                src={currentUser.info.avatar}
+                name={currentUser.info.name}
+              />
+            </div>
+          </AccountMenu>
         )}
       </div>
     ),
