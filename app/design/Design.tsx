@@ -7,7 +7,7 @@ import { useMutation, useRedo, useStorage, useUndo } from "@/liveblocks.config";
 import { ActiveElement, Attributes } from "@/types";
 import { defaultAttributes, defaultNavElement } from "@/constants";
 
-import Navbar from "@/components/shared/Navbar";
+import Topbar from "@/components/shared/Topbar";
 import LeftSidebar from "@/components/shared/LeftSidebar";
 import RightSidebar from "@/components/shared/RightSidebar";
 import LiveContainer from "@/components/liveblocks/LiveContainer";
@@ -29,10 +29,8 @@ import { handleImageUpload as handleImage } from "@/lib/shapes";
 import { useSession } from "next-auth/react";
 
 const Design = () => {
-  const [activeElement, setActiveElement] =
-    useState<ActiveElement>(defaultNavElement);
-  const [elementAttributes, setElementAttributes] =
-    useState<Attributes>(defaultAttributes);
+  const [activeElement, setActiveElement] = useState<ActiveElement>(defaultNavElement);
+  const [elementAttributes, setElementAttributes] = useState<Attributes>(defaultAttributes);
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const fabricRef = useRef<fabric.Canvas | null>(null);
@@ -119,13 +117,9 @@ const Design = () => {
       })
     );
 
-    canvas.on("object:modified", (options) =>
-      handleCanvasObjectModified({ options, syncShapeInStorage })
-    );
+    canvas.on("object:modified", (options) => handleCanvasObjectModified({ options, syncShapeInStorage }));
 
-    canvas.on("path:created", (options) =>
-      handlePathCreated({ options, syncShapeInStorage })
-    );
+    canvas.on("path:created", (options) => handlePathCreated({ options, syncShapeInStorage }));
 
     canvas.on("object:moving", (options) => handleCanvasObjectMoving(options));
 
@@ -145,13 +139,9 @@ const Design = () => {
       })
     );
 
-    canvas.on("selection:cleared", () =>
-      setElementAttributes(defaultAttributes)
-    );
+    canvas.on("selection:cleared", () => setElementAttributes(defaultAttributes));
 
-    canvas.on("object:scaling", (options) =>
-      handleCanvasObjectScaling({ options, setElementAttributes })
-    );
+    canvas.on("object:scaling", (options) => handleCanvasObjectScaling({ options, setElementAttributes }));
 
     window.addEventListener("resize", () => {
       handleResize(fabricRef.current);
@@ -216,7 +206,7 @@ const Design = () => {
 
   return (
     <main className="h-screen w-full overflow-hidden flex flex-col">
-      <Navbar
+      <Topbar
         activeElement={activeElement}
         handleActiveElement={handleActiveElement}
         imageInputRef={imageInputRef}

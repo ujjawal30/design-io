@@ -8,23 +8,16 @@ import ActiveUsers from "@/components/liveblocks/users/ActiveUsers";
 import ShapesMenu from "@/components/shared/ShapesMenu";
 import NewComment from "@/components/liveblocks/comments/NewComment";
 
-interface NavbarProps {
+interface TopbarProps {
   activeElement: ActiveElement;
   imageInputRef: React.MutableRefObject<HTMLInputElement | null>;
   handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleActiveElement: (element: ActiveElement) => void;
 }
 
-const Navbar = ({
-  activeElement,
-  handleActiveElement,
-  handleImageUpload,
-  imageInputRef,
-}: NavbarProps) => {
+const Topbar = ({ activeElement, handleActiveElement, handleImageUpload, imageInputRef }: TopbarProps) => {
   const isActive = (value: string | ActiveElement[]) =>
-    (activeElement && activeElement.value === value) ||
-    (Array.isArray(value) &&
-      value.some((val) => val?.value === activeElement?.value));
+    (activeElement && activeElement.value === value) || (Array.isArray(value) && value.some((val) => val?.value === activeElement?.value));
 
   return (
     <nav className="flex select-none items-center justify-between gap-4 bg-primary-black text-white px-4 py-2">
@@ -34,15 +27,8 @@ const Navbar = ({
         {navElements.map((element: ActiveElement) => (
           <div
             key={element.name}
-            className={cn(
-              "group flex justify-center items-center p-4",
-              isActive(element.value)
-                ? "bg-primary-purple"
-                : "hover:bg-primary-grey-200"
-            )}
-            onClick={() =>
-              !Array.isArray(element.value) && handleActiveElement(element)
-            }
+            className={cn("group flex justify-center items-center p-4", isActive(element.value) ? "bg-primary-purple" : "hover:bg-primary-grey-200")}
+            onClick={() => !Array.isArray(element.value) && handleActiveElement(element)}
           >
             {Array.isArray(element.value) ? (
               <ShapesMenu
@@ -68,7 +54,4 @@ const Navbar = ({
   );
 };
 
-export default memo(
-  Navbar,
-  (prevProps, nextProps) => prevProps.activeElement === nextProps.activeElement
-);
+export default memo(Topbar, (prevProps, nextProps) => prevProps.activeElement === nextProps.activeElement);
