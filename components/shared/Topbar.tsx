@@ -1,12 +1,10 @@
 import { memo } from "react";
 import Image from "next/image";
+import { EditIcon, LockIcon, MenuIcon } from "lucide-react";
 
 import { ActiveElement } from "@/types";
-import { navElements } from "@/constants";
-import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
 import ActiveUsers from "@/components/liveblocks/users/ActiveUsers";
-import ShapesMenu from "@/components/shared/ShapesMenu";
-import NewComment from "@/components/liveblocks/comments/NewComment";
 
 interface TopbarProps {
   activeElement: ActiveElement;
@@ -16,40 +14,30 @@ interface TopbarProps {
 }
 
 const Topbar = ({ activeElement, handleActiveElement, handleImageUpload, imageInputRef }: TopbarProps) => {
-  const isActive = (value: string | ActiveElement[]) =>
-    (activeElement && activeElement.value === value) || (Array.isArray(value) && value.some((val) => val?.value === activeElement?.value));
-
   return (
-    <nav className="flex select-none items-center justify-between gap-4 bg-primary-black text-white px-4 py-2">
-      <Image src="/logo.png" alt="logo" width={144} height={48} />
+    <nav className="flex select-none items-center justify-between gap-4 text-white rounded-xl">
+      <section className="flex gap-2">
+        <div className="bg-primary-black rounded-xl px-6 py-4">
+          <MenuIcon size={24} />
+        </div>
 
-      <div className="flex flex-row">
-        {navElements.map((element: ActiveElement) => (
-          <div
-            key={element.name}
-            className={cn("group flex justify-center items-center p-4", isActive(element.value) ? "bg-primary-purple" : "hover:bg-primary-grey-200")}
-            onClick={() => !Array.isArray(element.value) && handleActiveElement(element)}
-          >
-            {Array.isArray(element.value) ? (
-              <ShapesMenu
-                element={element}
-                activeElement={activeElement}
-                handleActiveElement={handleActiveElement}
-                imageInputRef={imageInputRef}
-                handleImageUpload={handleImageUpload}
-              />
-            ) : element.value === "comments" ? (
-              <NewComment>
-                <element.icon size={20} />
-              </NewComment>
-            ) : (
-              <element.icon size={20} />
-            )}
-          </div>
-        ))}
-      </div>
+        <div className="bg-primary-black rounded-xl px-4">
+          <Image src="/logo.png" alt="logo" width={144} height={48} />
+        </div>
+      </section>
 
-      <ActiveUsers />
+      <section className="flex group items-center gap-4 bg-primary-black rounded-xl px-6 py-4">
+        <div>Untitled Design</div>
+        <Badge className="bg-primary-grey-100 text-gray-400 hover:bg-none">
+          <LockIcon size={12} className="text-gray-500" />
+          &nbsp; Read Only
+        </Badge>
+        <EditIcon size={16} className="hidden group-hover:block" />
+      </section>
+
+      <section className="bg-primary-black rounded-xl px-4 py-3">
+        <ActiveUsers />
+      </section>
     </nav>
   );
 };

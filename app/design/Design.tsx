@@ -1,16 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useSession } from "next-auth/react";
 import { fabric } from "fabric";
 
 import { useMutation, useRedo, useStorage, useUndo } from "@/liveblocks.config";
 import { ActiveElement, Attributes } from "@/types";
 import { defaultAttributes, defaultNavElement } from "@/constants";
-
-import Topbar from "@/components/shared/Topbar";
-import LeftSidebar from "@/components/shared/LeftSidebar";
-import RightSidebar from "@/components/shared/RightSidebar";
-import LiveContainer from "@/components/liveblocks/LiveContainer";
 import {
   handleCanvasMouseDown,
   handleCanvasMouseMove,
@@ -26,7 +22,11 @@ import {
 } from "@/lib/canvas";
 import { handleDelete, handleKeyDown } from "@/lib/events";
 import { handleImageUpload as handleImage } from "@/lib/shapes";
-import { useSession } from "next-auth/react";
+
+import Topbar from "@/components/shared/Topbar";
+import LeftSidebar from "@/components/shared/LeftSidebar";
+import RightSidebar from "@/components/shared/RightSidebar";
+import LiveContainer from "@/components/liveblocks/LiveContainer";
 
 const Design = () => {
   const [activeElement, setActiveElement] = useState<ActiveElement>(defaultNavElement);
@@ -205,7 +205,7 @@ const Design = () => {
   };
 
   return (
-    <main className="h-screen w-full overflow-hidden flex flex-col">
+    <main className="w-full h-screen flex flex-col p-2 gap-2 overflow-hidden">
       <Topbar
         activeElement={activeElement}
         handleActiveElement={handleActiveElement}
@@ -213,8 +213,13 @@ const Design = () => {
         handleImageUpload={handleImageUpload}
       />
 
-      <section className="flex flex-1 h-full flex-row">
-        <LeftSidebar shapes={Array.from(canvasObjects)} fabricRef={fabricRef} />
+      <section className="flex flex-1 gap-2 flex-row h-1">
+        <LeftSidebar
+          activeElement={activeElement}
+          handleActiveElement={handleActiveElement}
+          imageInputRef={imageInputRef}
+          handleImageUpload={handleImageUpload}
+        />
 
         <LiveContainer undo={undo} redo={redo}>
           <canvas ref={canvasRef} />
@@ -225,6 +230,7 @@ const Design = () => {
           setElementAttributes={setElementAttributes}
           activeObjectRef={activeObjectRef}
           fabricRef={fabricRef}
+          shapes={Array.from(canvasObjects)}
           isEditing={isEditing}
           syncShapeInStorage={syncShapeInStorage}
         />

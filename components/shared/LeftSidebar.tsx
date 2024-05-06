@@ -1,47 +1,56 @@
-import { cn, getShapeInfo } from "@/lib/utils";
+import { useState } from "react";
+
+import { ActiveElement } from "@/types";
+import { navElements } from "@/constants";
+import { cn } from "@/lib/utils";
+import ShapesMenu from "@/components/menus/ShapesMenu";
+import NewComment from "@/components/liveblocks/comments/NewComment";
 
 interface LeftSidebarProps {
-  shapes: Array<any>;
-  fabricRef: React.MutableRefObject<fabric.Canvas | null>;
+  activeElement: ActiveElement;
+  imageInputRef: React.MutableRefObject<HTMLInputElement | null>;
+  handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleActiveElement: (element: ActiveElement) => void;
 }
 
-const LeftSidebar = ({ shapes, fabricRef }: LeftSidebarProps) => {
-  const isActive = (objectId: string) =>
-    // @ts-ignore
-    fabricRef.current?.getActiveObject()?.objectId === objectId;
+const LeftSidebar = ({ activeElement, handleActiveElement, handleImageUpload, imageInputRef }: LeftSidebarProps) => {
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  const handleClick = (index: number) => {
-    const clickedObject = fabricRef.current?.item(index);
-
-    // @ts-ignore
-    fabricRef.current?.setActiveObject(clickedObject);
-    fabricRef.current?.renderAll();
-  };
+  const isActive = (value: string | ActiveElement[]) =>
+    (activeElement && activeElement.value === value) || (Array.isArray(value) && value.some((val) => val?.value === activeElement?.value));
 
   return (
-    <section className="flex flex-col border-t border-primary-grey-200 bg-primary-black text-primary-grey-300 min-w-56 sticky left-0 max-sm:hidden h-full select-none overflow-y-auto pb-20">
-      <h3 className="border-b border-primary-grey-200 p-4 text-xs uppercase">
-        Elements
-      </h3>
-
-      {shapes.map(([key, value]: any, index) => {
-        const { name, icon: Icon } = getShapeInfo(value?.type!);
-
-        return (
-          <div
-            key={key}
-            className={cn(
-              "flex gap-4 px-4 py-3 items-center hover:bg-primary-purple hover:cursor-pointer",
-              isActive(key) && "bg-primary-purple"
-            )}
-            onClick={() => handleClick(index)}
-          >
-            <Icon size={20} />
-            <p className="text-sm font-semibold capitalize">{name}</p>
-          </div>
-        );
-      })}
-    </section>
+    <aside className="flex flex-col gap-2 justify-center border-primary-grey-200 bg-primary-black text-white rounded-xl sticky left-0 max-sm:hidden h-full select-none p-2">
+      {navElements.map((element: ActiveElement) => (
+        <div
+          key={element.name}
+          className={cn(
+            "group flex justify-center items-center rounded-md cursor-pointer p-4",
+            isActive(element.value) ? "bg-primary-purple" : "hover:bg-primary-grey-200",
+            Array.isArray(element.value) && menuOpen && "bg-primary-grey-200"
+          )}
+          onClick={() => (Array.isArray(element.value) ? setMenuOpen(!menuOpen) : handleActiveElement(element))}
+        >
+          {Array.isArray(element.value) ? (
+            <ShapesMenu
+              element={element}
+              activeElement={activeElement}
+              handleActiveElement={handleActiveElement}
+              imageInputRef={imageInputRef}
+              handleImageUpload={handleImageUpload}
+              menuOpen={menuOpen}
+              setMenuOpen={setMenuOpen}
+            />
+          ) : element.value === "comments" ? (
+            <NewComment>
+              <element.icon size={24} />
+            </NewComment>
+          ) : (
+            <element.icon size={24} />
+          )}
+        </div>
+      ))}
+    </aside>
   );
 };
 
