@@ -103,7 +103,7 @@ const RightSidebar = ({
         <Export />
       </TabsContent>
 
-      <TabsContent className="mt-0" value="layers">
+      <TabsContent className="mt-0 overflow-y-auto" value="layers">
         <div className="text-xs text-primary-grey-300 p-4 border-b border-primary-grey-200 w-full">View all your added layers in the canvas.</div>
 
         <div className="p-2">
