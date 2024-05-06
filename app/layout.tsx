@@ -10,8 +10,7 @@ const poppins = Poppins({ subsets: ["latin"], weight: ["400", "600", "700"] });
 
 export const metadata: Metadata = {
   title: "design.io",
-  description:
-    "A modern Figma clone built with Fabric.js and Liveblocks for real-time collaboration and design 🚀",
+  description: "A modern Figma clone built with Fabric.js and Liveblocks for real-time collaboration and design 🚀",
 };
 
 const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
