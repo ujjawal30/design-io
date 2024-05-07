@@ -34,7 +34,7 @@ const Topbar = () => {
   return (
     <nav className="flex select-none items-center justify-between gap-4 text-white rounded-xl">
       <section className="flex gap-2">
-        <div className="bg-primary-black rounded-xl px-6 py-4">
+        <div className="bg-primary-black rounded-xl px-[22px] py-4">
           <MenuIcon size={24} />
         </div>
 

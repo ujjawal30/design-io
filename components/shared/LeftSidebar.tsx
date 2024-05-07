@@ -43,10 +43,10 @@ const LeftSidebar = ({ activeElement, handleActiveElement, handleImageUpload, im
             />
           ) : element.value === "comments" ? (
             <NewComment>
-              <element.icon size={24} />
+              <element.icon size={20} />
             </NewComment>
           ) : (
-            <element.icon size={24} />
+            <element.icon size={20} />
           )}
         </div>
       ))}

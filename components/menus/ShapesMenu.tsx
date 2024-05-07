@@ -21,7 +21,7 @@ const ShapesMenu = ({ element, activeElement, handleActiveElement, handleImageUp
     <>
       <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
         <DropdownMenuTrigger className="no-ring">
-          <DropdownIcon size={24} />
+          <DropdownIcon size={20} />
         </DropdownMenuTrigger>
 
         <DropdownMenuContent className="ml-8 border-none bg-primary-black p-2 text-white rounded-xl" side="left">
