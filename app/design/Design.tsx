@@ -205,37 +205,28 @@ const Design = () => {
   };
 
   return (
-    <main className="w-full h-screen flex flex-col p-2 gap-2 overflow-hidden">
-      <Topbar
+    <section className="flex flex-1 gap-2 flex-row h-1">
+      <LeftSidebar
         activeElement={activeElement}
         handleActiveElement={handleActiveElement}
         imageInputRef={imageInputRef}
         handleImageUpload={handleImageUpload}
       />
 
-      <section className="flex flex-1 gap-2 flex-row h-1">
-        <LeftSidebar
-          activeElement={activeElement}
-          handleActiveElement={handleActiveElement}
-          imageInputRef={imageInputRef}
-          handleImageUpload={handleImageUpload}
-        />
+      <LiveContainer undo={undo} redo={redo}>
+        <canvas ref={canvasRef} />
+      </LiveContainer>
 
-        <LiveContainer undo={undo} redo={redo}>
-          <canvas ref={canvasRef} />
-        </LiveContainer>
-
-        <RightSidebar
-          elementAttributes={elementAttributes}
-          setElementAttributes={setElementAttributes}
-          activeObjectRef={activeObjectRef}
-          fabricRef={fabricRef}
-          shapes={Array.from(canvasObjects)}
-          isEditing={isEditing}
-          syncShapeInStorage={syncShapeInStorage}
-        />
-      </section>
-    </main>
+      <RightSidebar
+        elementAttributes={elementAttributes}
+        setElementAttributes={setElementAttributes}
+        activeObjectRef={activeObjectRef}
+        fabricRef={fabricRef}
+        shapes={Array.from(canvasObjects)}
+        isEditing={isEditing}
+        syncShapeInStorage={syncShapeInStorage}
+      />
+    </section>
   );
 };
 

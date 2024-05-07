@@ -6,6 +6,7 @@ import { fetchDesign } from "@/lib/actions/design.actions";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import authOptions from "@/auth.config";
+import Topbar from "@/components/shared/Topbar";
 
 interface DesignPageProps {
   params: { id: string };
@@ -25,7 +26,10 @@ const DesignPage = async ({ params: { id } }: DesignPageProps) => {
 
   return (
     <LiveRoom id={id}>
-      <Design />
+      <main className="w-full h-screen flex flex-col p-2 gap-2 overflow-hidden">
+        <Topbar />
+        <Design />
+      </main>
     </LiveRoom>
   );
 };

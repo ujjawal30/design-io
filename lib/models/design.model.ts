@@ -5,8 +5,10 @@ import { IUser } from "./user.model";
 export interface IDesign extends Document {
   title: string;
   description: string;
-  creator: IUser;
-  collaborators: IUser[];
+  creator: IUser | string;
+  collaborators: IUser[] | string[];
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const DesignSchema = new Schema<IDesign>(
