@@ -8,34 +8,42 @@ import { useOthers, useSelf } from "@/liveblocks.config";
 import { cn } from "@/lib/utils";
 
 import Avatar from "@/components/liveblocks/users/Avatar";
-import AccountMenu from "@/components/menus/AccountMenu";
+import { Button } from "@/components/ui/button";
+import { PlusCircleIcon, PlusIcon } from "lucide-react";
 
-const ActiveUsers = () => {
+interface ActiveUsersProps {
+  collaborators: UserProps[];
+}
+
+const ActiveUsers = ({ collaborators }: ActiveUsersProps) => {
   const users = useOthers();
-  const currentUser = useSelf();
 
-  const hasMoreUsers = users.length > 3;
+  const collaboratorsCount = collaborators.length;
 
   const memoizedActiveUsers = useMemo(
     () => (
-      <div className="flex pl-2">
-        {users.slice(0, 3).map(({ connectionId, info }) => (
-          <Avatar key={connectionId} src={info.avatar} name={info.name} />
-        ))}
+      <div className="bg-primary-black rounded-xl p-3 flex gap-2">
+        <div className="flex first:!ml-0">
+          {collaboratorsCount > 0 &&
+            collaborators
+              .slice(0, 3)
+              .map((collaborator, index) => (
+                <Avatar key={collaborator._id} src={collaborator.photo} name={collaborator.name} className={index > 0 ? "-ml-2" : ""} />
+              ))}
 
-        {hasMoreUsers && (
-          <div className={cn(styles.avatar, "flex items-center justify-center text-lg")} data-tooltip={`${users.length - 3} more user(s)`}>
-            +{users.length - 3}
-          </div>
-        )}
-
-        {currentUser && (
-          <AccountMenu name={currentUser.info.name}>
-            <div className="relative ml-8 first:ml-0">
-              <Avatar src={currentUser.info.avatar} name={currentUser.info.name} />
+          {collaboratorsCount > 3 && (
+            <div
+              className={cn(styles.avatar, "flex items-center justify-center text-sm -ml-2")}
+              data-tooltip={`${collaboratorsCount - 3} more user(s)`}
+            >
+              +{collaboratorsCount - 3}
             </div>
-          </AccountMenu>
-        )}
+          )}
+        </div>
+
+        <Button className="bg-primary-grey-100 text-gray-500 rounded-full h-fit p-1">
+          <PlusIcon size={24} />
+        </Button>
       </div>
     ),
     [users.length]
