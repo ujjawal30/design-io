@@ -5,6 +5,7 @@ import "./globals.css";
 
 import { cn } from "@/lib/utils";
 import NextAuthProvider from "@/contexts/NextAuthProvider";
+import ModalProvider from "@/contexts/ModalProvider";
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "600", "700"] });
 
@@ -18,6 +19,7 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
     <html lang="en">
       <body className={cn(poppins.className, "bg-primary-grey-200")}>
         <NextAuthProvider>{children}</NextAuthProvider>
+        <ModalProvider />
       </body>
     </html>
   );

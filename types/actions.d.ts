@@ -25,3 +25,10 @@ declare type FetchDesignParams = {
   designId: string;
   populate?: boolean;
 };
+
+declare type UpdateDesignMetadataParams = {
+  designId: string;
+  title: string;
+  description?: string;
+  path: string;
+};

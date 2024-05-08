@@ -3,12 +3,9 @@
 import Design, { IDesign } from "@/lib/models/design.model";
 import { connectToDatabase } from "@/lib/mongoose";
 import User from "../models/user.model";
+import { revalidatePath } from "next/cache";
 
-export const registerDesign = async ({
-  title,
-  description,
-  userId,
-}: RegisterDesignParams) => {
+export const registerDesign = async ({ title, description, userId }: RegisterDesignParams) => {
   const response: ActionsResponse<IDesign> = {
     status: false,
     message: "",
@@ -44,10 +41,7 @@ export const registerDesign = async ({
   return response;
 };
 
-export const fetchDesign = async ({
-  designId,
-  populate = true,
-}: FetchDesignParams) => {
+export const fetchDesign = async ({ designId, populate = true }: FetchDesignParams) => {
   const response: ActionsResponse<IDesign> = {
     status: false,
     message: "",
@@ -83,6 +77,48 @@ export const fetchDesign = async ({
     }
   } catch (error) {
     console.error("[FETCH_DESIGN_ERROR] :>> ", error);
+    response.message = "Somethng went wrong. Please try again!";
+  }
+
+  return response;
+};
+
+export const updateDesignMetadata = async ({ designId, title, description, path }: UpdateDesignMetadataParams) => {
+  const response: ActionsResponse<IDesign> = {
+    status: false,
+    message: "",
+    data: null,
+  };
+
+  if (!designId || !title || !path) {
+    response.message = "Invalid request.";
+    return response;
+  }
+
+  try {
+    await connectToDatabase();
+
+    let design = await Design.findById(designId);
+
+    if (design) {
+      const updatedDesign = await Design.findByIdAndUpdate(designId, {
+        title,
+        description,
+      });
+
+      if (updatedDesign) {
+        revalidatePath(path);
+
+        response.status = true;
+        response.message = "Design metadata updated successfully.";
+      } else {
+        response.message = "Unable to update design metadata.";
+      }
+    } else {
+      response.message = "Design not found.";
+    }
+  } catch (error) {
+    console.error("[UPDATE_DESIGN_METADATA_ERROR] :>> ", error);
     response.message = "Somethng went wrong. Please try again!";
   }
 

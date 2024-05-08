@@ -1,5 +1,8 @@
 "use client";
 
+import { EditIcon, InfoIcon, SquareArrowOutUpRightIcon, TrashIcon } from "lucide-react";
+
+import { editMetadataModal } from "@/hooks/useModal";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,34 +11,38 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { EditIcon, InfoIcon, SquareArrowOutUpRightIcon, TrashIcon } from "lucide-react";
 
 interface DesignMenuProps {
   children: React.ReactElement;
+  design: DesignProps;
 }
 
-const DesignMenu = ({ children }: DesignMenuProps) => {
+const DesignMenu = ({ children, design }: DesignMenuProps) => {
+  const { onOpen } = editMetadataModal();
+
+  const handleEditClick = () => onOpen(design);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56 bg-primary-grey-200 border-primary-black text-white">
+      <DropdownMenuContent className="w-56 bg-primary-black border-primary-grey-100 text-white">
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <EditIcon className="mr-2 h-4 w-4" />
+          <DropdownMenuItem className="gap-4" onClick={handleEditClick}>
+            <EditIcon size={20} />
             <span>Edit Metadata</span>
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <InfoIcon className="mr-2 h-4 w-4" />
+          <DropdownMenuItem className="gap-4">
+            <InfoIcon size={20} />
             <span>Details</span>
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <SquareArrowOutUpRightIcon className="mr-2 h-4 w-4" />
+          <DropdownMenuItem className="gap-4">
+            <SquareArrowOutUpRightIcon size={20} />
             <span>Export</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <TrashIcon className="mr-2 h-4 w-4" />
+        <DropdownMenuItem className="gap-4">
+          <TrashIcon size={20} />
           <span>Delete</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
