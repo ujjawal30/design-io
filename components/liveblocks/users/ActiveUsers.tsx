@@ -9,19 +9,22 @@ import { Button } from "@/components/ui/button";
 import Avatar from "@/components/liveblocks/users/Avatar";
 
 interface ActiveUsersProps {
+  creator: UserProps;
   collaborators: UserProps[];
+  userId: string;
   isCreator: boolean;
 }
 
-const ActiveUsers = ({ collaborators, isCreator }: ActiveUsersProps) => {
+const ActiveUsers = ({ creator, collaborators, userId, isCreator }: ActiveUsersProps) => {
   // const users = useOthers();
-  const collaboratorsCount = collaborators.length;
+  const allCollaborators = isCreator ? collaborators : [creator, ...collaborators.filter((collaborator) => collaborator._id !== userId)];
+  const collaboratorsCount = allCollaborators.length;
 
   return (
     <div className="bg-primary-black rounded-xl p-3 flex gap-2">
       <div className="flex first:!ml-0">
         {collaboratorsCount > 0 &&
-          collaborators
+          allCollaborators
             .slice(0, 3)
             .map((collaborator, index) => (
               <Avatar key={collaborator._id} src={collaborator.photo} name={collaborator.name} className={index > 0 ? "-ml-2" : ""} />

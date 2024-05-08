@@ -45,7 +45,7 @@ const Topbar = ({ design, userId }: TopbarProps) => {
       </section>
 
       <section className="flex gap-2">
-        <ActiveUsers collaborators={collaborators} isCreator={isCreator} />
+        <ActiveUsers collaborators={collaborators} creator={creator} userId={userId!} isCreator={isCreator} />
 
         <AccountMenu name={currentUser.info.name}>
           <div className="bg-primary-black rounded-xl p-3">
