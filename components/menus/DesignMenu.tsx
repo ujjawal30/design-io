@@ -15,9 +15,10 @@ import {
 interface DesignMenuProps {
   children: React.ReactElement;
   design: DesignProps;
+  isCreator: boolean;
 }
 
-const DesignMenu = ({ children, design }: DesignMenuProps) => {
+const DesignMenu = ({ children, design, isCreator }: DesignMenuProps) => {
   const { onOpen } = editMetadataModal();
 
   const handleEditClick = () => onOpen(design);
@@ -25,9 +26,9 @@ const DesignMenu = ({ children, design }: DesignMenuProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56 bg-primary-black border-primary-grey-100 text-white">
+      <DropdownMenuContent className="w-56 bg-primary-black border-primary-grey-100 text-white rounded-xl">
         <DropdownMenuGroup>
-          <DropdownMenuItem className="gap-4" onClick={handleEditClick}>
+          <DropdownMenuItem className="gap-4" onClick={handleEditClick} disabled={!isCreator}>
             <EditIcon size={20} />
             <span>Edit Metadata</span>
           </DropdownMenuItem>
@@ -41,7 +42,7 @@ const DesignMenu = ({ children, design }: DesignMenuProps) => {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="gap-4">
+        <DropdownMenuItem className="gap-4" disabled={!isCreator}>
           <TrashIcon size={20} />
           <span>Delete</span>
         </DropdownMenuItem>

@@ -9,10 +9,10 @@ import { Button } from "@/components/ui/button";
 interface TitleProps {
   designId: string;
   title: string;
-  canEdit: boolean;
+  isCreator: boolean;
 }
 
-const Title = ({ designId, title, canEdit }: TitleProps) => {
+const Title = ({ designId, title, isCreator }: TitleProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [titleValue, setTitleValue] = useState(title);
   const [canSave, setCanSave] = useState(false);
@@ -61,7 +61,7 @@ const Title = ({ designId, title, canEdit }: TitleProps) => {
   ) : (
     <div className="group flex justify-center items-center gap-2">
       <p>{title}</p>
-      {canEdit && (
+      {isCreator && (
         <Button variant="inputAction" onClick={handleEnableEdit} className="hidden group-hover:block">
           <EditIcon size={16} />
         </Button>

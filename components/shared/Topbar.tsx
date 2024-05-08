@@ -20,10 +20,12 @@ const Topbar = ({ design, userId }: TopbarProps) => {
 
   const currentUser = useSelf();
 
+  const isCreator = creator._id === userId;
+
   return (
     <nav className="flex select-none items-center justify-between gap-4 text-white rounded-xl">
       <section className="flex gap-2">
-        <DesignMenu design={design}>
+        <DesignMenu design={design} isCreator={isCreator}>
           <div className="bg-primary-black rounded-xl px-[22px] py-4">
             <MenuIcon size={24} />
           </div>
@@ -35,7 +37,7 @@ const Topbar = ({ design, userId }: TopbarProps) => {
       </section>
 
       <section className="flex items-center gap-4 bg-primary-black rounded-xl px-6 py-4">
-        <Title designId={_id} title={title} canEdit={creator._id === userId} />
+        <Title designId={_id} title={title} isCreator={isCreator} />
         {/* <Badge className="bg-primary-grey-100 text-gray-400 hover:bg-none">
           <LockIcon size={12} className="text-gray-500" />
           &nbsp; View Only
@@ -43,7 +45,8 @@ const Topbar = ({ design, userId }: TopbarProps) => {
       </section>
 
       <section className="flex gap-2">
-        <ActiveUsers collaborators={collaborators} />
+        <ActiveUsers collaborators={collaborators} isCreator={isCreator} />
+
         <AccountMenu name={currentUser.info.name}>
           <div className="bg-primary-black rounded-xl p-3">
             <Avatar src={currentUser.info.avatar} name={currentUser.info.name} className="!ml-0" />
