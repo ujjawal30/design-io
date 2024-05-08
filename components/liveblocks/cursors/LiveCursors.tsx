@@ -12,15 +12,7 @@ interface LiveCursorsProps {
 const LiveCursors = ({ others }: LiveCursorsProps) => {
   return others.map(({ connectionId, presence }) => {
     if (!presence?.cursor) return null;
-    return (
-      <Cursor
-        color={COLORS[connectionId % COLORS.length]}
-        x={presence.cursor.x}
-        y={presence.cursor.y}
-        key={connectionId}
-        message={presence.message}
-      />
-    );
+    return <Cursor color={presence.color!} x={presence.cursor.x} y={presence.cursor.y} key={connectionId} message={presence.message} />;
   });
 };
 

@@ -51,9 +51,8 @@ const client = createClient({
 // `user.presence` property. Must be JSON-serializable.
 export type Presence = {
   cursor: { x: number; y: number } | null;
-  cursorColor: string | null;
-  editingText: string | null;
   message: string | null;
+  color: string | null;
 };
 
 // Optionally, Storage represents the shared document that persists in the
@@ -138,9 +137,7 @@ export const {
     // useUser,
     // useRoomInfo
   },
-} = createRoomContext<Presence, Storage, UserMeta, RoomEvent, ThreadMetadata>(
-  client
-);
+} = createRoomContext<Presence, Storage, UserMeta, RoomEvent, ThreadMetadata>(client);
 
 // Project-level hooks, use inside `LiveblocksProvider`
 export const {

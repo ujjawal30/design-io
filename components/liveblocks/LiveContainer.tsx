@@ -12,6 +12,7 @@ import ReactionSelector from "@/components/liveblocks/reactions/ReactionSelector
 import FlyingReaction from "@/components/liveblocks/reactions/FlyingReaction";
 import Comments from "@/components/liveblocks/comments/Comments";
 import CustomContextMenu from "../shared/CustomContextMenu";
+import { COLORS } from "@/constants";
 
 interface LiveContainerProps {
   children: React.ReactElement;
@@ -151,6 +152,8 @@ const LiveContainer = ({ children, undo, redo }: LiveContainerProps) => {
         break;
     }
   }, []);
+
+  useEffect(() => updateMyPresence({ color: COLORS[Math.floor(Math.random() * COLORS.length)] }), []);
 
   useEffect(() => {
     const onKeyUp = (e: KeyboardEvent) => {

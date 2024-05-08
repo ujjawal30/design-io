@@ -16,15 +16,12 @@ const LiveRoom = ({ id, children }: LiveRoomProps) => {
       id={id}
       initialPresence={{
         cursor: null,
-        cursorColor: null,
-        editingText: null,
+        color: null,
         message: null,
       }}
       initialStorage={{ canvasObject: new LiveMap() }}
     >
-      <ClientSideSuspense fallback={<div>Loading…</div>}>
-        {() => children}
-      </ClientSideSuspense>
+      <ClientSideSuspense fallback={<div>Loading…</div>}>{() => children}</ClientSideSuspense>
     </RoomProvider>
   );
 };
