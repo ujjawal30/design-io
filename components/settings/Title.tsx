@@ -1,17 +1,23 @@
 import { useState } from "react";
-import { Input } from "../ui/input";
+import { usePathname } from "next/navigation";
 import { CheckIcon, EditIcon, XIcon } from "lucide-react";
-import { Button } from "../ui/button";
+
+import { updateDesignMetadata } from "@/lib/actions/design.actions";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 interface TitleProps {
+  designId: string;
   title: string;
   canEdit: boolean;
 }
 
-const Title = ({ title, canEdit }: TitleProps) => {
+const Title = ({ designId, title, canEdit }: TitleProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [titleValue, setTitleValue] = useState(title);
   const [canSave, setCanSave] = useState(false);
+
+  const pathname = usePathname();
 
   const handleEnableEdit = () => setIsEditing(true);
 
@@ -29,7 +35,8 @@ const Title = ({ title, canEdit }: TitleProps) => {
     setCanSave(newTitle !== title && newTitle.length >= 3);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    await updateDesignMetadata({ designId, title: titleValue, path: pathname });
     setIsEditing(false);
   };
 

@@ -35,7 +35,7 @@ const Topbar = ({ design, userId }: TopbarProps) => {
       </section>
 
       <section className="flex items-center gap-4 bg-primary-black rounded-xl px-6 py-4">
-        <Title title={title} canEdit={creator._id === userId} />
+        <Title designId={_id} title={title} canEdit={creator._id === userId} />
         {/* <Badge className="bg-primary-grey-100 text-gray-400 hover:bg-none">
           <LockIcon size={12} className="text-gray-500" />
           &nbsp; View Only
