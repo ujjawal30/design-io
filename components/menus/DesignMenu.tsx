@@ -42,7 +42,7 @@ const DesignMenu = ({ children, design, isCreator }: DesignMenuProps) => {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="gap-4" disabled={!isCreator}>
+        <DropdownMenuItem className="gap-4 text-red-500 hover:!text-red-500" disabled={!isCreator}>
           <TrashIcon size={20} />
           <span>Delete</span>
         </DropdownMenuItem>
