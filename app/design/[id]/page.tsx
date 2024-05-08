@@ -27,7 +27,7 @@ const DesignPage = async ({ params: { id } }: DesignPageProps) => {
   return (
     <LiveRoom id={id}>
       <main className="w-full h-screen flex flex-col p-2 gap-2 overflow-hidden">
-        <Topbar />
+        <Topbar design={design.data as DesignProps} userId={session?.user.id} />
         <Design />
       </main>
     </LiveRoom>

@@ -1,35 +1,20 @@
 "use client";
 
-import { memo, useState } from "react";
 import Image from "next/image";
-import { ArrowRight, EditIcon, LockIcon, MenuIcon } from "lucide-react";
+import { LockIcon, MenuIcon } from "lucide-react";
 
-import { ActiveElement } from "@/types";
-import { Badge } from "@/components/ui/badge";
 import ActiveUsers from "@/components/liveblocks/users/ActiveUsers";
-import EditTitleField from "../forms/EditTitleField";
+import Title from "../settings/Title";
 
 interface TopbarProps {
-  activeElement: ActiveElement;
-  imageInputRef: React.MutableRefObject<HTMLInputElement | null>;
-  handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleActiveElement: (element: ActiveElement) => void;
+  design: DesignProps;
+  userId?: string;
 }
 
-const Topbar = () => {
-  const [isEditingTitle, setIsEditingTitle] = useState(false);
-  const [titleValue, setTitleValue] = useState("Untitled Design");
+const Topbar = ({ design, userId }: TopbarProps) => {
+  const { _id, title, description, creator, collaborators } = design;
 
-  const onClickEditTitle = () => setIsEditingTitle(true);
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitleValue(event.target.value);
-  };
-
-  const handleTitleSubmit = () => {
-    console.log("titleValue :>> ", titleValue);
-    setIsEditingTitle(false);
-  };
+  console.log("creator :>> ", creator);
 
   return (
     <nav className="flex select-none items-center justify-between gap-4 text-white rounded-xl">
@@ -43,17 +28,11 @@ const Topbar = () => {
         </div>
       </section>
 
-      <section className="flex group items-center gap-4 bg-primary-black rounded-xl px-6 py-4">
-        {isEditingTitle ? <EditTitleField value={titleValue} handleInputChange={handleInputChange} /> : <div>{titleValue}</div>}
-
-        {isEditingTitle ? (
-          <ArrowRight onClick={handleTitleSubmit} size={16} />
-        ) : (
-          <EditIcon onClick={onClickEditTitle} size={16} className="hidden group-hover:block" />
-        )}
+      <section className="flex items-center gap-4 bg-primary-black rounded-xl px-6 py-4">
+        <Title title={title} canEdit={creator._id === userId} />
         {/* <Badge className="bg-primary-grey-100 text-gray-400 hover:bg-none">
           <LockIcon size={12} className="text-gray-500" />
-          &nbsp; Read Only
+          &nbsp; View Only
         </Badge> */}
       </section>
 
