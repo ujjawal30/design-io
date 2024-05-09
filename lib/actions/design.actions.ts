@@ -1,9 +1,11 @@
 "use server";
 
-import Design, { IDesign } from "@/lib/models/design.model";
-import { connectToDatabase } from "@/lib/mongoose";
-import User from "../models/user.model";
 import { revalidatePath } from "next/cache";
+import { UpdateQuery } from "mongoose";
+
+import { connectToDatabase } from "@/lib/mongoose";
+import Design, { IDesign } from "@/lib/models/design.model";
+import User from "@/lib/models/user.model";
 
 export const registerDesign = async ({ title, description, userId }: RegisterDesignParams) => {
   const response: ActionsResponse<IDesign> = {
@@ -119,6 +121,47 @@ export const updateDesignMetadata = async ({ designId, title, description, path 
     }
   } catch (error) {
     console.error("[UPDATE_DESIGN_METADATA_ERROR] :>> ", error);
+    response.message = "Somethng went wrong. Please try again!";
+  }
+
+  return response;
+};
+
+export const updateCollaborators = async ({ designId, userId, action, path }: UpdateCollaboratorsParams) => {
+  const response: ActionsResponse<IDesign> = {
+    status: false,
+    message: "",
+    data: null,
+  };
+
+  if (!designId || !userId || !action || !path) {
+    response.message = "Invalid request.";
+    return response;
+  }
+
+  try {
+    await connectToDatabase();
+
+    const data: UpdateQuery<IDesign> =
+      action === "add"
+        ? {
+            $push: { collaborators: userId },
+          }
+        : {
+            $pull: { collaborators: userId },
+          };
+
+    const design = await Design.findByIdAndUpdate(designId, data);
+    if (design) {
+      revalidatePath(path);
+
+      response.status = true;
+      response.message = "Design collaborators updated successfully.";
+    } else {
+      response.message = "Unable to update design collaborators.";
+    }
+  } catch (error) {
+    console.error("[UPDATE_DESIGN_COLLABORATORS_ERROR] :>> ", error);
     response.message = "Somethng went wrong. Please try again!";
   }
 

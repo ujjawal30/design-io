@@ -1,8 +1,11 @@
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import SearchInput from "../forms/SearchInput";
-import React, { useEffect, useState } from "react";
-import UserCard from "../cards/UserCard";
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+
 import { fetchUsers } from "@/lib/actions/user.actions";
+import { updateCollaborators } from "@/lib/actions/design.actions";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import SearchInput from "@/components/forms/SearchInput";
+import UserCard from "@/components/cards/UserCard";
 
 interface ManageCollaboratorsProps {
   children: React.ReactElement;
@@ -11,14 +14,25 @@ interface ManageCollaboratorsProps {
 }
 
 const ManageCollaborators = ({ children, design, userId }: ManageCollaboratorsProps) => {
-  const { _id, creator, collaborators } = design;
-
-  const collaboratingUsers = [creator, ...collaborators];
-
   const [value, setValue] = useState("");
-  const [users, setUsers] = useState<UserProps[]>(collaboratingUsers);
+  const [users, setUsers] = useState<UserProps[]>([design.creator, ...design.collaborators]);
 
-  // const handleCollaborators = async (userId: string, action: "add" | "remove") => {};
+  const pathname = usePathname();
+
+  const handleCollaborators = async (userId: string, action: "add" | "remove") => {
+    await updateCollaborators({
+      designId: design._id,
+      userId,
+      action,
+      path: pathname,
+    });
+
+    setValue("");
+  };
+
+  useEffect(() => {
+    setUsers([design.creator, ...design.collaborators]);
+  }, [design.collaborators.length]);
 
   useEffect(() => {
     if (value.length > 1) {
@@ -35,14 +49,14 @@ const ManageCollaborators = ({ children, design, userId }: ManageCollaboratorsPr
 
       return () => clearTimeout(debounce);
     } else {
-      setUsers(collaboratingUsers);
+      setUsers([design.creator, ...design.collaborators]);
     }
   }, [value]);
 
   const checkRole = (id: string) => {
-    if (id === creator._id) {
+    if (id === design.creator._id) {
       return "creator";
-    } else if (collaborators.some((c) => c._id === id)) {
+    } else if (design.collaborators.some((c) => c._id === id)) {
       return "collaborator";
     }
 
@@ -62,7 +76,7 @@ const ManageCollaborators = ({ children, design, userId }: ManageCollaboratorsPr
 
         <div className="w-full h-60 p-2 space-y-4 overflow-auto">
           {users.length > 0 ? (
-            users.map((user) => <UserCard {...user} role={checkRole(user._id)} key={user._id} />)
+            users.map((user) => <UserCard {...user} role={checkRole(user._id)} key={user._id} handleCollaborators={handleCollaborators} />)
           ) : (
             <p className="text-gray-400">No users found.</p>
           )}

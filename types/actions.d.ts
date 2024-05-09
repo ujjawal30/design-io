@@ -38,3 +38,10 @@ declare type FetchUsersParams = {
   userId: string;
   limit?: number;
 };
+
+declare type UpdateCollaboratorsParams = {
+  userId: string;
+  designId: string;
+  action: "add" | "remove";
+  path: string;
+};
