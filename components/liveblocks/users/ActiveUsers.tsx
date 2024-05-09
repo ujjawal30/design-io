@@ -11,13 +11,13 @@ import CollaboratorsMenu from "@/components/menus/CollaboratorsMenu";
 import ManageCollaborators from "@/components/modals/ManageCollaborators";
 
 interface ActiveUsersProps {
-  creator: UserProps;
-  collaborators: UserProps[];
+  design: DesignProps;
   userId: string;
   isCreator: boolean;
 }
 
-const ActiveUsers = ({ creator, collaborators, userId, isCreator }: ActiveUsersProps) => {
+const ActiveUsers = ({ design, userId, isCreator }: ActiveUsersProps) => {
+  const { _id, collaborators, creator } = design;
   // const users = useOthers();
   const allCollaborators = isCreator ? collaborators : [creator, ...collaborators.filter((collaborator) => collaborator._id !== userId)];
   const collaboratorsCount = allCollaborators.length;
@@ -45,7 +45,7 @@ const ActiveUsers = ({ creator, collaborators, userId, isCreator }: ActiveUsersP
       </CollaboratorsMenu>
 
       {isCreator && (
-        <ManageCollaborators creator={creator} collaborators={collaborators}>
+        <ManageCollaborators design={design} userId={userId}>
           <Button className="bg-primary-grey-100 text-gray-400 rounded-full h-fit p-1">
             <PlusIcon size={24} />
           </Button>

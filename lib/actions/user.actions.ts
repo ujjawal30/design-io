@@ -2,12 +2,9 @@
 
 import User, { IUser } from "@/lib/models/user.model";
 import { connectToDatabase } from "@/lib/mongoose";
+import { FilterQuery } from "mongoose";
 
-export const registerUser = async ({
-  name,
-  email,
-  password,
-}: RegisterUserParams) => {
+export const registerUser = async ({ name, email, password }: RegisterUserParams) => {
   const response: ActionsResponse<IUser> = {
     status: false,
     message: "",
@@ -24,14 +21,11 @@ export const registerUser = async ({
 
     const doesUserExist = await User.findOne({ email });
     if (doesUserExist) {
-      response.message =
-        "E-mail already exists. Please try with different one.";
+      response.message = "E-mail already exists. Please try with different one.";
       return response;
     }
 
-    const photo = `https://liveblocks.io/avatars/avatar-${Math.floor(
-      Math.random() * 30
-    )}.png`;
+    const photo = `https://liveblocks.io/avatars/avatar-${Math.floor(Math.random() * 30)}.png`;
 
     await User.create({
       name,
@@ -50,10 +44,7 @@ export const registerUser = async ({
   return response;
 };
 
-export const authenticateUser = async ({
-  email,
-  password,
-}: AuthenticateUserParams) => {
+export const authenticateUser = async ({ email, password }: AuthenticateUserParams) => {
   const response: ActionsResponse<IUser> = {
     status: false,
     message: "",
@@ -71,8 +62,7 @@ export const authenticateUser = async ({
     const user = await User.findOne({ email });
 
     if (!user) {
-      response.message =
-        "No accounts associated with this e-mail. Please create a new account.";
+      response.message = "No accounts associated with this e-mail. Please create a new account.";
       return response;
     }
 
@@ -87,6 +77,43 @@ export const authenticateUser = async ({
     }
   } catch (error) {
     console.error("[AUTHENTICATE_USER_ERROR] :>> ", error);
+    response.message = "Somethng went wrong. Please try again!";
+  }
+
+  return response;
+};
+
+export const fetchUsers = async ({ q, userId, limit = 10 }: FetchUsersParams) => {
+  const response: ActionsResponse<IUser[]> = {
+    status: false,
+    message: "",
+    data: null,
+  };
+
+  try {
+    await connectToDatabase();
+
+    const regex = new RegExp(q, "i");
+
+    const query: FilterQuery<IUser> = {
+      _id: { $ne: userId },
+    };
+
+    if (q.trim() !== "") {
+      query.$or = [{ name: { $regex: regex } }, { email: { $regex: regex } }];
+    }
+
+    const users = await User.find(query).limit(limit);
+
+    if (users.length > 0) {
+      response.status = true;
+      response.message = "Users fetched successfully.";
+      response.data = JSON.parse(JSON.stringify(users));
+    } else {
+      response.message = "No users found.";
+    }
+  } catch (error) {
+    console.error("[FETCH_USERS_ERROR] :>> ", error);
     response.message = "Somethng went wrong. Please try again!";
   }
 

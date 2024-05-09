@@ -32,3 +32,9 @@ declare type UpdateDesignMetadataParams = {
   description?: string;
   path: string;
 };
+
+declare type FetchUsersParams = {
+  q: string;
+  userId: string;
+  limit?: number;
+};
