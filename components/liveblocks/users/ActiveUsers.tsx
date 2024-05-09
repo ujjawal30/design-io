@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import Avatar from "@/components/liveblocks/users/Avatar";
 import CollaboratorsMenu from "@/components/menus/CollaboratorsMenu";
+import ManageCollaborators from "@/components/modals/ManageCollaborators";
 
 interface ActiveUsersProps {
   creator: UserProps;
@@ -44,9 +45,11 @@ const ActiveUsers = ({ creator, collaborators, userId, isCreator }: ActiveUsersP
       </CollaboratorsMenu>
 
       {isCreator && (
-        <Button className="bg-primary-grey-100 text-gray-400 rounded-full h-fit p-1">
-          <PlusIcon size={24} />
-        </Button>
+        <ManageCollaborators creator={creator} collaborators={collaborators}>
+          <Button className="bg-primary-grey-100 text-gray-400 rounded-full h-fit p-1">
+            <PlusIcon size={24} />
+          </Button>
+        </ManageCollaborators>
       )}
     </div>
   );
