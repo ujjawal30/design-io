@@ -10,10 +10,9 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Image from "next/image";
+import Avatar from "../liveblocks/users/Avatar";
 
 interface AccountMenuProps {
   id: string;
@@ -34,7 +33,7 @@ const AccountMenu = ({ id, info, children }: AccountMenuProps) => {
       <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
       <DropdownMenuContent className="min-w-56 bg-primary-black border-primary-grey-100 text-white rounded-xl shadow-xl">
         <DropdownMenuLabel className="flex items-center gap-4">
-          <Image src={info.avatar} width={48} height={48} alt="profile" className="rounded-full" />
+          <Avatar src={info.avatar} alt="profile" size={48} />
 
           <div>
             <h2 className="text-sm font-semibold">{info.name}</h2>

@@ -4,6 +4,7 @@ import { LoaderIcon, PlusIcon, XIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import Avatar from "../liveblocks/users/Avatar";
 
 interface UserCardProps extends UserProps {
   role: "creator" | "collaborator" | "none";
@@ -29,7 +30,7 @@ const UserCard = ({ _id, name, photo, role, handleCollaborators }: UserCardProps
 
   return (
     <div key={_id} className="flex items-center gap-4 text-white">
-      <Image src={photo} alt={name} width={48} height={48} className="rounded-full" />
+      <Avatar src={photo} alt={name} size={48} />
       <p className="font-medium flex-1">{name}</p>
 
       {role !== "none" ? (

@@ -49,7 +49,7 @@ const Topbar = ({ design, userId }: TopbarProps) => {
 
         <AccountMenu id={userId!} info={currentUser.info}>
           <div className="bg-primary-black rounded-xl p-3">
-            <Avatar src={currentUser.info.avatar} name={currentUser.info.name} className="!ml-0" />
+            <Avatar src={currentUser.info.avatar} alt={currentUser.info.name} />
           </div>
         </AccountMenu>
       </section>
