@@ -1,10 +1,15 @@
 "use client";
 
-import { dashboardPageTypes } from "@/constants/routes";
-import { cn } from "@/lib/utils";
 import Link from "next/link";
 
+import { dashboardPageTypes } from "@/constants/routes";
+import { IDesign } from "@/lib/models/design.model";
+import { IUser } from "@/lib/models/user.model";
+import { cn } from "@/lib/utils";
+import DesignCard from "@/components/cards/DesignCard";
+
 interface DashboardProps {
+  designs: IDesign[] | null;
   user: {
     id: string;
     name: string;
@@ -14,9 +19,9 @@ interface DashboardProps {
   type: DashboardPageType;
 }
 
-const Dashboard = ({ type }: DashboardProps) => {
+const Dashboard = ({ designs, type }: DashboardProps) => {
   return (
-    <section className="flex-1 p-4 text-white bg-primary-black rounded-xl">
+    <section className="flex-1 p-4 text-white bg-primary-black rounded-xl space-y-8">
       <div className="flex justify-between items-center pl-2">
         <div className="flex items-center gap-4">
           {dashboardPageTypes.map((page) => (
@@ -32,6 +37,18 @@ const Dashboard = ({ type }: DashboardProps) => {
             </Link>
           ))}
         </div>
+      </div>
+
+      <div className="w-full px-2">
+        {designs?.length ? (
+          <div className="grid grid-cols-4 gap-4">
+            {designs.map((design) => (
+              <DesignCard {...design} _id={design._id} creator={design.creator as IUser} />
+            ))}
+          </div>
+        ) : (
+          <div className="text-gray-400 text-lg">No designs found.</div>
+        )}
       </div>
     </section>
   );
