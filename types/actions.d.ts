@@ -53,4 +53,5 @@ declare type FetchDesignsParams = {
   order?: "createdAt" | "updatedAt" | "title";
   sort?: "asc" | "desc";
   search?: string;
+  type?: DashboardPageType;
 };

@@ -170,7 +170,15 @@ export const updateCollaborators = async ({ designId, userId, action, path }: Up
   return response;
 };
 
-export const fetchDesigns = async ({ userId, limit = 8, page = 1, search = "", order = "updatedAt", sort = "desc" }: FetchDesignsParams) => {
+export const fetchDesigns = async ({
+  userId,
+  limit = 8,
+  page = 1,
+  search = "",
+  order = "updatedAt",
+  sort = "desc",
+  type = "recently-viewed",
+}: FetchDesignsParams) => {
   const response: ActionsResponse<IDesign[]> = {
     status: false,
     message: "",
@@ -185,9 +193,13 @@ export const fetchDesigns = async ({ userId, limit = 8, page = 1, search = "", o
   const skip = (page - 1) * limit;
   const sortBy = { [order as string]: sort };
 
-  const query: FilterQuery<IDesign> = {
-    creator: userId,
-  };
+  let query: FilterQuery<IDesign> = {};
+
+  if (type === "recently-viewed") {
+    query.creator = userId;
+  } else if (type === "shared") {
+    query.collaborators = { $in: [userId] };
+  }
 
   if (search.trim() !== "") {
     const regex = new RegExp(search, "i");

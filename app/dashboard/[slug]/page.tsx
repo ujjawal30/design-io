@@ -17,8 +17,8 @@ const DashboardPage = async ({ params: { slug } }: DashboardPageProps) => {
 
   const session = await getServerSession(authOptions);
 
-  const designs = await fetchDesigns({ userId: session?.user.id! });
-  console.log("design :>> ", designs);
+  const designs = await fetchDesigns({ userId: session?.user.id!, type: slug });
+  console.log("design :>> ", slug, designs);
 
   return (
     <main className="w-full h-screen flex flex-col p-2 gap-2 overflow-hidden">
