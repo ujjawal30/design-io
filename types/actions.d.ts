@@ -45,3 +45,12 @@ declare type UpdateCollaboratorsParams = {
   action: "add" | "remove";
   path: string;
 };
+
+declare type FetchDesignsParams = {
+  userId: string;
+  limit?: number;
+  page?: number;
+  order?: "createdAt" | "updatedAt" | "title";
+  sort?: "asc" | "desc";
+  search?: string;
+};

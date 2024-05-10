@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { UpdateQuery } from "mongoose";
+import { FilterQuery, SortOrder, UpdateQuery } from "mongoose";
 
 import { connectToDatabase } from "@/lib/mongoose";
 import Design, { IDesign } from "@/lib/models/design.model";
@@ -162,6 +162,65 @@ export const updateCollaborators = async ({ designId, userId, action, path }: Up
     }
   } catch (error) {
     console.error("[UPDATE_DESIGN_COLLABORATORS_ERROR] :>> ", error);
+    response.message = "Somethng went wrong. Please try again!";
+  }
+
+  return response;
+};
+
+export const fetchDesigns = async ({ userId, limit = 8, page = 1, search = "", order = "updatedAt", sort = "desc" }: FetchDesignsParams) => {
+  const response: ActionsResponse<IDesign[]> = {
+    status: false,
+    message: "",
+    data: null,
+  };
+
+  if (!userId) {
+    response.message = "Invalid request.";
+    return response;
+  }
+
+  const skip = (page - 1) * limit;
+  const sortBy = { [order as string]: sort };
+
+  const query: FilterQuery<IDesign> = {
+    creator: userId,
+  };
+
+  if (search.trim() !== "") {
+    const regex = new RegExp(search, "i");
+    query.$or = [{ title: { $regex: regex } }, { description: { $regex: regex } }];
+  }
+
+  try {
+    connectToDatabase();
+
+    const designs = await Design.find(query)
+      .limit(limit)
+      .skip(skip)
+      .sort(sortBy)
+      .populate([
+        {
+          path: "creator",
+          model: User,
+          select: "name photo",
+        },
+        {
+          path: "collaborators",
+          model: User,
+          select: "name photo",
+        },
+      ]);
+
+    if (designs.length > 0) {
+      response.status = true;
+      response.message = "Designs fetched successfully.";
+      response.data = JSON.parse(JSON.stringify(designs));
+    } else {
+      response.message = "No designs found.";
+    }
+  } catch (error) {
+    console.error("[FETCH_DESIGNS_ERROR] :>> ", error);
     response.message = "Somethng went wrong. Please try again!";
   }
 
