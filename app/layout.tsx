@@ -18,8 +18,10 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
     <html lang="en">
       <body className={cn(poppins.className, "bg-primary-grey-200")}>
-        <NextAuthProvider>{children}</NextAuthProvider>
-        <ModalProvider />
+        <NextAuthProvider>
+          {children}
+          <ModalProvider />
+        </NextAuthProvider>
       </body>
     </html>
   );

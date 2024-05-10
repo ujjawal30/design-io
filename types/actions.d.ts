@@ -17,7 +17,7 @@ declare type AuthenticateUserParams = {
 
 declare type RegisterDesignParams = {
   title: string;
-  description: string;
+  description?: string;
   userId: string;
 };
 

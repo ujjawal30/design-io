@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { EditDesignSchema, EditDesignSchemaType } from "@/lib/schemas/edit-design.schema";
-import { updateDesignMetadata } from "@/lib/actions/design.actions";
+import { registerDesign, updateDesignMetadata } from "@/lib/actions/design.actions";
 import { editMetadataModal } from "@/hooks/useModal";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -16,10 +16,13 @@ interface EditDesignFormProps {
   id: string;
   title: string;
   description?: string;
+  editMode: boolean;
+  userId: string;
 }
 
-const EditDesignForm = ({ id, title, description }: EditDesignFormProps) => {
+const EditDesignForm = ({ editMode, id, title, description, userId }: EditDesignFormProps) => {
   const pathname = usePathname();
+  const router = useRouter();
   const { onClose } = editMetadataModal();
 
   const form = useForm<EditDesignSchemaType>({
@@ -30,13 +33,23 @@ const EditDesignForm = ({ id, title, description }: EditDesignFormProps) => {
     },
   });
 
+  const isSubmitting = form.formState.isSubmitting;
+
   const onSubmit = async (data: EditDesignSchemaType) => {
     console.log("data :>> ", data);
+    if (editMode) {
+      const updateDesignResponse = await updateDesignMetadata({ designId: id, path: pathname, ...data });
 
-    const updateDesignResponse = await updateDesignMetadata({ designId: id, path: pathname, ...data });
+      if (updateDesignResponse.status) {
+        onClose();
+      }
+    } else {
+      const createDesignResponse = await registerDesign({ ...data, userId: userId });
 
-    if (updateDesignResponse.status) {
-      onClose();
+      if (createDesignResponse.status) {
+        onClose();
+        router.push(`/design/${createDesignResponse.data?._id}`);
+      }
     }
   };
 
@@ -87,8 +100,8 @@ const EditDesignForm = ({ id, title, description }: EditDesignFormProps) => {
           )}
         />
         <FormMessage>{form.formState.errors.root?.message}</FormMessage>
-        <Button className="bg-primary-purple font-semibold float-right !mt-6" type="submit">
-          Save changes
+        <Button disabled={isSubmitting} className="bg-primary-purple font-semibold float-right !mt-6" type="submit">
+          {editMode ? "Save" : "Create"}
         </Button>
       </form>
     </Form>

@@ -7,6 +7,8 @@ import { BellIcon, PlusIcon } from "lucide-react";
 import Avatar from "@/components/liveblocks/users/Avatar";
 import AccountMenu from "@/components/menus/AccountMenu";
 import SearchInput from "@/components/forms/SearchInput";
+import { Button } from "../ui/button";
+import { editMetadataModal } from "@/hooks/useModal";
 
 interface NavbarProps {
   user: {
@@ -20,6 +22,8 @@ interface NavbarProps {
 const Navbar = ({ user }: NavbarProps) => {
   const [searchKey, setSearchKey] = useState("");
 
+  const { onOpen } = editMetadataModal();
+
   return (
     <nav className="flex select-none items-center justify-between gap-4 bg-primary-black text-white rounded-xl px-4 py-2">
       <div className="px-2">
@@ -29,6 +33,10 @@ const Navbar = ({ user }: NavbarProps) => {
       <SearchInput value={searchKey} handleInputeChange={setSearchKey} placeholder="Search a design..." className="w-72" />
 
       <div className="flex items-center gap-4">
+        <Button className="bg-primary-purple" onClick={() => onOpen({} as DesignProps)}>
+          <PlusIcon size={28} />
+          <span className="ml-2 hidden md:inline-block">New Design</span>
+        </Button>
         <div className="bg-primary-grey-200 h-fit p-3 rounded-xl cursor-pointer">
           <BellIcon size={28} className="text-gray-400" />
         </div>

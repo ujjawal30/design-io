@@ -7,7 +7,7 @@ import { connectToDatabase } from "@/lib/mongoose";
 import Design, { IDesign } from "@/lib/models/design.model";
 import User from "@/lib/models/user.model";
 
-export const registerDesign = async ({ title, description, userId }: RegisterDesignParams) => {
+export const registerDesign = async ({ title, description = "", userId }: RegisterDesignParams) => {
   const response: ActionsResponse<IDesign> = {
     status: false,
     message: "",
@@ -29,6 +29,8 @@ export const registerDesign = async ({ title, description, userId }: RegisterDes
     });
 
     if (newDesign) {
+      revalidatePath(`/dashboard/recently-viewed`);
+
       response.status = true;
       response.message = "Design registered successfully.";
       response.data = JSON.parse(JSON.stringify(newDesign));

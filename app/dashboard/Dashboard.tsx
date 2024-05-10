@@ -43,7 +43,7 @@ const Dashboard = ({ designs, type }: DashboardProps) => {
         {designs?.length ? (
           <div className="grid grid-cols-4 gap-4">
             {designs.map((design) => (
-              <DesignCard {...design} _id={design._id} creator={design.creator as IUser} />
+              <DesignCard key={design._id} {...design} _id={design._id} creator={design.creator as IUser} />
             ))}
           </div>
         ) : (
