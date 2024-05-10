@@ -11,3 +11,10 @@ declare interface DesignProps extends IDesign {
   creator: UserProps;
   collaborators: UserProps[];
 }
+
+declare type DashboardPageType = "recently-viewed" | "shared";
+
+declare type DashboardPageTypeProps = {
+  type: DashboardPageType;
+  label: string;
+};

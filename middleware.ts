@@ -1,10 +1,7 @@
 import { NextResponse } from "next/server";
 import { withAuth } from "next-auth/middleware";
 
-import {
-  signInNonAccessibleRoutes,
-  signedInAccessibleRoutes,
-} from "./constants/routes";
+import { signInNonAccessibleRoutes, signedInAccessibleRoutes } from "./constants/routes";
 
 export default withAuth(
   // `withAuth` augments your `Request` with the user's token.
@@ -15,14 +12,9 @@ export default withAuth(
       nextUrl: { pathname },
     } = req;
 
-    if (token && signInNonAccessibleRoutes.includes(pathname))
-      return NextResponse.redirect(new URL("/", url));
+    if (token && signInNonAccessibleRoutes.includes(pathname)) return NextResponse.redirect(new URL("/", url));
 
-    if (
-      !token &&
-      (signedInAccessibleRoutes.includes(pathname) ||
-        pathname.startsWith("/design"))
-    )
+    if (!token && (signedInAccessibleRoutes.includes(pathname) || pathname.startsWith("/design") || pathname.startsWith("/dashboard")))
       return NextResponse.redirect(new URL("/auth/login", url));
   },
   {

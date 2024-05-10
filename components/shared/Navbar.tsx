@@ -29,11 +29,11 @@ const Navbar = ({ user }: NavbarProps) => {
       <SearchInput value={searchKey} handleInputeChange={setSearchKey} placeholder="Search a design..." className="w-72" />
 
       <div className="flex items-center gap-4">
-        <div className="bg-primary-grey-200 h-fit p-4 rounded-xl">
-          <BellIcon size={20} className="text-gray-400" />
+        <div className="bg-primary-grey-200 h-fit p-3 rounded-xl cursor-pointer">
+          <BellIcon size={28} className="text-gray-400" />
         </div>
         <AccountMenu id={user.id} info={{ name: user.name, avatar: user.photo }}>
-          <div className="bg-primary-grey-200 rounded-xl p-2">
+          <div className="bg-primary-grey-200 rounded-xl p-2 cursor-pointer">
             <Avatar src={user.photo} alt={user.name} size={36} />
           </div>
         </AccountMenu>
