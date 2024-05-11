@@ -1,23 +1,36 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ArrowDownWideNarrowIcon, ArrowUpNarrowWideIcon, CheckIcon, ChevronsUpDownIcon } from "lucide-react";
 
-import { cn } from "@/lib/utils";
+import { defaultSort, sortFields, sortOrder } from "@/constants";
+import { cn, formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { defaultSort, sortFields, sortOrder } from "@/constants";
 
 const SortField = () => {
   const [open, setOpen] = useState(false);
   const [sort, setSort] = useState<Sort>(defaultSort);
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
 
   const handleSelect = (key: keyof Sort, value: SortFields | SortOrder) => {
     setSort((prev) => ({
       ...prev,
       [key]: value,
     }));
+
     setOpen(false);
+
+    const queryString = searchParams.toString();
+
+    const queryParams =
+      value === defaultSort.field || value === defaultSort.order ? removeKeysFromQuery(queryString, [key]) : formUrlQuery(queryString, key, value);
+
+    router.push(`${pathname}${queryParams}`, { scroll: false });
   };
 
   return (
@@ -31,10 +44,10 @@ const SortField = () => {
           }
         >
           <div className="flex items-center gap-1">
-            {sort.order === "asc" ? <ArrowDownWideNarrowIcon className="mr-2 h-4 w-4" /> : <ArrowUpNarrowWideIcon className="mr-2 h-4 w-4" />}
+            {sort.order === "asc" ? <ArrowDownWideNarrowIcon size={16} className="mr-2" /> : <ArrowUpNarrowWideIcon size={16} className="mr-2" />}
             {sortFields.find((field) => field.value === sort.field)?.label}
           </div>
-          <ChevronsUpDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          <ChevronsUpDownIcon size={16} className="ml-2 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
 
@@ -46,7 +59,7 @@ const SortField = () => {
               className="flex items-center gap-2 p-2 hover:bg-primary-grey-100 rounded-lg"
               onClick={() => handleSelect("field", field.value as SortFields)}
             >
-              <CheckIcon className={cn("mr-2 h-4 w-4", sort.field === field.value ? "opacity-100" : "opacity-0")} />
+              <CheckIcon size={16} className={cn("mr-2", sort.field === field.value ? "opacity-100" : "opacity-0")} />
               {field.label}
             </div>
           ))}
@@ -59,7 +72,7 @@ const SortField = () => {
               className="flex items-center gap-2 p-2 hover:bg-primary-grey-100 rounded-lg"
               onClick={() => handleSelect("order", order.value as SortOrder)}
             >
-              <CheckIcon className={cn("mr-2 h-4 w-4", sort.order === order.value ? "opacity-100" : "opacity-0")} />
+              <CheckIcon size={16} className={cn("mr-2", sort.order === order.value ? "opacity-100" : "opacity-0")} />
               {order.label}
             </div>
           ))}

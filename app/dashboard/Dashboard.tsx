@@ -7,6 +7,7 @@ import { IDesign } from "@/lib/models/design.model";
 import { IUser } from "@/lib/models/user.model";
 import { cn } from "@/lib/utils";
 import DesignCard from "@/components/cards/DesignCard";
+import SortField from "@/components/forms/SortField";
 
 interface DashboardProps {
   designs: IDesign[] | null;
@@ -36,6 +37,9 @@ const Dashboard = ({ designs, type }: DashboardProps) => {
               {page.label}
             </Link>
           ))}
+        </div>
+        <div className="flex justify-between items-center">
+          <SortField />
         </div>
       </div>
 

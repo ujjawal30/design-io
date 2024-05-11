@@ -18,8 +18,15 @@ const DashboardPage = async ({ params: { slug }, searchParams }: DashboardPagePr
 
   const session = await getServerSession(authOptions);
 
-  const designs = await fetchDesigns({ userId: session?.user.id!, type: slug, search: searchParams?.q as string });
-  console.log("design :>> ", slug, designs);
+  const { q, field, order } = searchParams;
+
+  const designs = await fetchDesigns({
+    userId: session?.user.id!,
+    type: slug,
+    search: q as string,
+    order: field as SortFields,
+    sort: order as SortOrder,
+  });
 
   return (
     <main className="w-full h-screen flex flex-col p-2 gap-2 overflow-hidden">
