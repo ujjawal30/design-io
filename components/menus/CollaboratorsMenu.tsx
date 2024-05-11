@@ -59,12 +59,12 @@ const CollaboratorsMenu = ({ children, collaborators, creator }: CollaboratorsMe
 
       <DropdownMenuContent className="min-w-60 mt-4 bg-primary-black border-primary-grey-100 text-white rounded-xl shadow-xl">
         {collaborators.map((collaborator) => (
-          <DropdownMenuItem className="gap-4">
+          <DropdownMenuItem className="gap-4 px-2 py-1">
             <Avatar
               key={collaborator._id}
               src={collaborator.photo}
               alt={collaborator.name}
-              size={40}
+              size={36}
               style={{
                 borderColor: getColor(collaborator._id),
               }}
