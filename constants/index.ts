@@ -16,16 +16,7 @@ import {
   UndoIcon,
 } from "lucide-react";
 
-export const COLORS = [
-  "#E57373",
-  "#9575CD",
-  "#4FC3F7",
-  "#81C784",
-  "#FFF176",
-  "#FF8A65",
-  "#F06292",
-  "#7986CB",
-];
+export const COLORS = ["#E57373", "#9575CD", "#4FC3F7", "#81C784", "#FFF176", "#FF8A65", "#F06292", "#7986CB"];
 
 export const shapeElements = [
   {
@@ -210,5 +201,36 @@ export const contextMenuCommands = [
     label: "Reactions",
     shortcut: "E",
     icon: SmilePlus,
+  },
+];
+
+export const defaultSort: Sort = {
+  field: "updatedAt",
+  order: "desc",
+};
+
+export const sortFields = [
+  {
+    value: "updatedAt",
+    label: "Last updated",
+  },
+  {
+    value: "createdAt",
+    label: "Date Created",
+  },
+  {
+    value: "title",
+    label: "Alphabetically",
+  },
+];
+
+export const sortOrder = [
+  {
+    value: "desc",
+    label: "Descending",
+  },
+  {
+    value: "asc",
+    label: "Ascending",
   },
 ];

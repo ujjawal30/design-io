@@ -50,8 +50,8 @@ declare type FetchDesignsParams = {
   userId: string;
   limit?: number;
   page?: number;
-  order?: "createdAt" | "updatedAt" | "title";
-  sort?: "asc" | "desc";
+  order?: SortFields;
+  sort?: SortOrder;
   search?: string;
   type?: DashboardPageType;
 };

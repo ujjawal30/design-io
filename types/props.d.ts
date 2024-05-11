@@ -18,3 +18,12 @@ declare type DashboardPageTypeProps = {
   type: DashboardPageType;
   label: string;
 };
+
+declare type SortFields = "createdAt" | "updatedAt" | "title";
+
+declare type SortOrder = "asc" | "desc";
+
+declare type Sort = {
+  field: SortFields;
+  order: SortOrder;
+};
