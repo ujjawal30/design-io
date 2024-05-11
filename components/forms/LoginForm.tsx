@@ -6,14 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { LoginSchema, LoginSchemaType } from "@/lib/schemas/login.schema";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -35,7 +28,7 @@ const LoginForm = () => {
     });
 
     if (signInResponse?.ok) {
-      router.push("/");
+      router.push("/dashboard");
     } else {
       form.setError("root", {
         message: signInResponse?.error!,
@@ -44,10 +37,7 @@ const LoginForm = () => {
     }
   };
 
-  const onInputChange = (
-    value: string,
-    onFieldChange: (value: string) => void
-  ) => {
+  const onInputChange = (value: string, onFieldChange: (value: string) => void) => {
     onFieldChange(value);
     form.clearErrors("root");
   };
@@ -60,18 +50,14 @@ const LoginForm = () => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-gray-300 font-semibold">
-                E-mail
-              </FormLabel>
+              <FormLabel className="text-gray-300 font-semibold">E-mail</FormLabel>
               <FormControl>
                 <Input
                   {...field}
                   className="auth-input"
                   placeholder="E-mail"
                   type="email"
-                  onChange={(e) =>
-                    onInputChange(e.target.value, field.onChange)
-                  }
+                  onChange={(e) => onInputChange(e.target.value, field.onChange)}
                 />
               </FormControl>
               <FormMessage />
@@ -83,18 +69,14 @@ const LoginForm = () => {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-gray-300 font-semibold">
-                Password
-              </FormLabel>
+              <FormLabel className="text-gray-300 font-semibold">Password</FormLabel>
               <FormControl>
                 <Input
                   {...field}
                   className="auth-input"
                   placeholder="Password"
                   type="password"
-                  onChange={(e) =>
-                    onInputChange(e.target.value, field.onChange)
-                  }
+                  onChange={(e) => onInputChange(e.target.value, field.onChange)}
                 />
               </FormControl>
               <FormMessage />
@@ -102,10 +84,7 @@ const LoginForm = () => {
           )}
         />
         <FormMessage>{form.formState.errors.root?.message}</FormMessage>
-        <Button
-          className="w-full bg-primary-purple font-semibold !mt-6"
-          type="submit"
-        >
+        <Button className="w-full bg-primary-purple font-semibold !mt-6" type="submit">
           Login
         </Button>
       </form>

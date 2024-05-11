@@ -12,10 +12,9 @@ export default withAuth(
       nextUrl: { pathname },
     } = req;
 
-    if (token && signInNonAccessibleRoutes.includes(pathname)) return NextResponse.redirect(new URL("/", url));
+    if (token && signInNonAccessibleRoutes.includes(pathname)) return NextResponse.redirect(new URL("/dashboard", url));
 
-    if (!token && (signedInAccessibleRoutes.includes(pathname) || pathname.startsWith("/design") || pathname.startsWith("/dashboard")))
-      return NextResponse.redirect(new URL("/auth/login", url));
+    if (!token && signedInAccessibleRoutes.some((route) => pathname.startsWith(route))) return NextResponse.redirect(new URL("/auth/login", url));
   },
   {
     callbacks: {
