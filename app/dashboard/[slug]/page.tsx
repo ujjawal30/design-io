@@ -10,14 +10,15 @@ interface DashboardPageProps {
   params: {
     slug: DashboardPageType;
   };
+  searchParams: { [key: string]: string | number | undefined };
 }
 
-const DashboardPage = async ({ params: { slug } }: DashboardPageProps) => {
+const DashboardPage = async ({ params: { slug }, searchParams }: DashboardPageProps) => {
   if (!dashboardPageTypes.some((page) => page.type === slug)) throw new Error("Page not found.");
 
   const session = await getServerSession(authOptions);
 
-  const designs = await fetchDesigns({ userId: session?.user.id!, type: slug });
+  const designs = await fetchDesigns({ userId: session?.user.id!, type: slug, search: searchParams?.q as string });
   console.log("design :>> ", slug, designs);
 
   return (

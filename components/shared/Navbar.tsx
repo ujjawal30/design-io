@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { BellIcon, PlusIcon } from "lucide-react";
 
@@ -9,6 +9,8 @@ import AccountMenu from "@/components/menus/AccountMenu";
 import SearchInput from "@/components/forms/SearchInput";
 import { Button } from "../ui/button";
 import { editMetadataModal } from "@/hooks/useModal";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { formUrlQuery, removeKeysFromQuery } from "@/lib/utils";
 
 interface NavbarProps {
   user: {
@@ -22,7 +24,23 @@ interface NavbarProps {
 const Navbar = ({ user }: NavbarProps) => {
   const [searchKey, setSearchKey] = useState("");
 
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
   const { onOpen } = editMetadataModal();
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      const queryString = searchParams.toString();
+
+      const queryParams = searchKey ? formUrlQuery(queryString, "q", searchKey) : removeKeysFromQuery(queryString, ["q"]);
+
+      router.push(`${pathname}${queryParams}`, { scroll: false });
+    }, 300);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [router, searchParams, searchKey]);
 
   return (
     <nav className="flex select-none items-center justify-between gap-4 bg-primary-black text-white rounded-xl px-4 py-2">
