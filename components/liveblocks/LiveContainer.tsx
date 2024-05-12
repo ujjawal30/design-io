@@ -2,12 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 
-import {
-  useBroadcastEvent,
-  useEventListener,
-  useMyPresence,
-  useOthers,
-} from "@/liveblocks.config";
+import { useBroadcastEvent, useEventListener, useMyPresence, useOthers } from "@/liveblocks.config";
 import useInterval from "@/hooks/useInterval";
 import { CursorMode, CursorState, Reaction, ReactionEvent } from "@/types";
 
@@ -17,6 +12,7 @@ import ReactionSelector from "@/components/liveblocks/reactions/ReactionSelector
 import FlyingReaction from "@/components/liveblocks/reactions/FlyingReaction";
 import Comments from "@/components/liveblocks/comments/Comments";
 import CustomContextMenu from "../shared/CustomContextMenu";
+import { COLORS } from "@/constants";
 
 interface LiveContainerProps {
   children: React.ReactElement;
@@ -35,17 +31,11 @@ const LiveContainer = ({ children, undo, redo }: LiveContainerProps) => {
   const [{ cursor }, updateMyPresence] = useMyPresence();
 
   useInterval(() => {
-    setReactions((reactions) =>
-      reactions.filter((reaction) => reaction.timestamp > Date.now() - 4000)
-    );
+    setReactions((reactions) => reactions.filter((reaction) => reaction.timestamp > Date.now() - 4000));
   }, 1000);
 
   useInterval(() => {
-    if (
-      cursorState.mode === CursorMode.Reaction &&
-      cursorState.isPressed &&
-      cursor
-    ) {
+    if (cursorState.mode === CursorMode.Reaction && cursorState.isPressed && cursor) {
       setReactions((reactions) =>
         reactions.concat([
           {
@@ -119,18 +109,14 @@ const LiveContainer = ({ children, undo, redo }: LiveContainerProps) => {
         },
       });
 
-      setCursorState((prev) =>
-        prev.mode === CursorMode.Reaction ? { ...prev, isPressed: true } : prev
-      );
+      setCursorState((prev) => (prev.mode === CursorMode.Reaction ? { ...prev, isPressed: true } : prev));
     },
     [cursorState.mode, setCursorState]
   );
 
   const handlePointerUp = useCallback(
     (event: React.PointerEvent) => {
-      setCursorState((prev) =>
-        prev.mode === CursorMode.Reaction ? { ...prev, isPressed: true } : prev
-      );
+      setCursorState((prev) => (prev.mode === CursorMode.Reaction ? { ...prev, isPressed: true } : prev));
     },
     [cursorState.mode, setCursorState]
   );
@@ -167,6 +153,8 @@ const LiveContainer = ({ children, undo, redo }: LiveContainerProps) => {
     }
   }, []);
 
+  useEffect(() => updateMyPresence({ color: COLORS[Math.floor(Math.random() * COLORS.length)] }), []);
+
   useEffect(() => {
     const onKeyUp = (e: KeyboardEvent) => {
       console.log("e.key :>> ", e.key);
@@ -201,7 +189,7 @@ const LiveContainer = ({ children, undo, redo }: LiveContainerProps) => {
 
   return (
     <CustomContextMenu
-      className="relative flex-1 w-full flex justify-center items-center"
+      className="relative flex-1 flex justify-center items-center shadow-inner"
       handleContextMenuTrigger={handleContextMenuTrigger}
       id="canvas"
       onPointerMove={handlePointerMove}
@@ -209,17 +197,10 @@ const LiveContainer = ({ children, undo, redo }: LiveContainerProps) => {
       onPointerUp={handlePointerUp}
       onPointerLeave={handlePointerLeave}
     >
-      <div>
+      <div className="shadow-canvas shadow-primary-black rounded-xl">
         {children}
 
-        {cursor && (
-          <CursorChat
-            cursor={cursor}
-            cursorState={cursorState}
-            setCursorState={setCursorState}
-            updateMyPresence={updateMyPresence}
-          />
-        )}
+        {cursor && <CursorChat cursor={cursor} cursorState={cursorState} setCursorState={setCursorState} updateMyPresence={updateMyPresence} />}
 
         {reactions.map((reaction) => (
           <FlyingReaction
@@ -231,9 +212,7 @@ const LiveContainer = ({ children, undo, redo }: LiveContainerProps) => {
           />
         ))}
 
-        {cursorState.mode === CursorMode.ReactionSelector && (
-          <ReactionSelector setReaction={setReaction} />
-        )}
+        {cursorState.mode === CursorMode.ReactionSelector && <ReactionSelector setReaction={setReaction} />}
 
         <LiveCursors others={others} />
 

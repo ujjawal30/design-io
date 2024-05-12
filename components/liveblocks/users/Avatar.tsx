@@ -1,25 +1,17 @@
 import Image from "next/image";
-import styles from "./index.module.css";
+import { cn } from "@/lib/utils";
 
 interface AvatarProps {
   src: string;
-  name: string;
+  alt: string;
+  size?: number;
+  className?: string;
+  style?: React.CSSProperties;
 }
 
-const Avatar = ({ src, name }: AvatarProps) => {
+const Avatar = ({ src, alt, size = 32, className, style }: AvatarProps) => {
   return (
-    <div className={styles.avatar} data-tooltip={name}>
-      {src.includes("https://") ? (
-        <Image
-          className="w-full h-full rounded-full"
-          src={src}
-          alt={name}
-          fill
-        />
-      ) : (
-        <p className="text-white">{src}</p>
-      )}
-    </div>
+    <Image src={src} alt={alt} height={size} width={size} className={cn("border-2 border-primary-grey-200 rounded-full", className)} style={style} />
   );
 };
 

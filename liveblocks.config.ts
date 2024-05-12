@@ -2,8 +2,7 @@ import { LiveMap, createClient } from "@liveblocks/client";
 import { createRoomContext, createLiveblocksContext } from "@liveblocks/react";
 
 const client = createClient({
-  publicApiKey: process.env.NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY!,
-  // authEndpoint: "/api/liveblocks-auth",
+  authEndpoint: "/api/auth/liveblocks",
   // throttle: 100,
   async resolveUsers({ userIds }) {
     // Used only for Comments and Notifications. Return a list of user information
@@ -52,9 +51,8 @@ const client = createClient({
 // `user.presence` property. Must be JSON-serializable.
 export type Presence = {
   cursor: { x: number; y: number } | null;
-  cursorColor: string | null;
-  editingText: string | null;
   message: string | null;
+  color: string | null;
 };
 
 // Optionally, Storage represents the shared document that persists in the
@@ -139,9 +137,7 @@ export const {
     // useUser,
     // useRoomInfo
   },
-} = createRoomContext<Presence, Storage, UserMeta, RoomEvent, ThreadMetadata>(
-  client
-);
+} = createRoomContext<Presence, Storage, UserMeta, RoomEvent, ThreadMetadata>(client);
 
 // Project-level hooks, use inside `LiveblocksProvider`
 export const {
