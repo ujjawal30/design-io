@@ -2,6 +2,7 @@ declare interface ActionsResponse<T> {
   status: boolean;
   message: string;
   data: T | null;
+  totalPages?: number;
 }
 
 declare type RegisterUserParams = {

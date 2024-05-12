@@ -183,6 +183,7 @@ export const fetchDesigns = async ({
     status: false,
     message: "",
     data: null,
+    totalPages: 1,
   };
 
   if (!userId) {
@@ -226,10 +227,13 @@ export const fetchDesigns = async ({
         },
       ]);
 
+    const totalDesigns = await Design.countDocuments(query);
+
     if (designs.length > 0) {
       response.status = true;
       response.message = "Designs fetched successfully.";
       response.data = JSON.parse(JSON.stringify(designs));
+      response.totalPages = Math.ceil(totalDesigns / limit);
     } else {
       response.message = "No designs found.";
     }

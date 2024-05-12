@@ -50,7 +50,7 @@ const Navbar = ({ user }: NavbarProps) => {
 
       <SearchInput value={searchKey} handleInputeChange={setSearchKey} placeholder="Search a design..." className="w-72" />
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 px-2">
         <Button className="bg-primary-purple" onClick={() => onOpen({} as DesignProps)}>
           <PlusIcon size={28} />
           <span className="ml-2 hidden md:inline-block">New Design</span>
