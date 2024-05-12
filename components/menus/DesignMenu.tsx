@@ -2,7 +2,7 @@
 
 import { EditIcon, HomeIcon, InfoIcon, PlusCircleIcon, SquareArrowOutUpRightIcon, TrashIcon } from "lucide-react";
 
-import { editMetadataModal } from "@/hooks/useModal";
+import { editMetadataModal, viewDetailsModal } from "@/hooks/useModal";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,12 +20,14 @@ interface DesignMenuProps {
 }
 
 const DesignMenu = ({ children, design, isCreator }: DesignMenuProps) => {
-  const { push } = useRouter();
-  const { onOpen } = editMetadataModal();
+  const router = useRouter();
+  const editMetadata = editMetadataModal();
+  const viewDetails = viewDetailsModal();
 
-  const handleHomeClick = () => push("/dashboard");
-  const handleNewClick = () => onOpen({} as DesignProps);
-  const handleEditClick = () => onOpen(design);
+  const handleHomeClick = () => router.push("/dashboard");
+  const handleNewClick = () => editMetadata.onOpen({} as DesignProps);
+  const handleEditClick = () => editMetadata.onOpen(design);
+  const handleDetailClick = () => viewDetails.onOpen(design);
 
   return (
     <DropdownMenu>
@@ -44,7 +46,7 @@ const DesignMenu = ({ children, design, isCreator }: DesignMenuProps) => {
           <EditIcon size={20} />
           <span>Edit Metadata</span>
         </DropdownMenuItem>
-        <DropdownMenuItem className="gap-4">
+        <DropdownMenuItem className="gap-4" onClick={handleDetailClick}>
           <InfoIcon size={20} />
           <span>Details</span>
         </DropdownMenuItem>
