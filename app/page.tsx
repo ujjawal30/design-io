@@ -9,6 +9,7 @@ import AccountMenu from "@/components/menus/AccountMenu";
 import Avatar from "@/components/liveblocks/users/Avatar";
 
 import snip from "../public/design-snip.png";
+import { features, testimonials } from "@/constants/static";
 
 const Homepage = async () => {
   const session = await getServerSession(authOptions);
@@ -57,13 +58,13 @@ const Homepage = async () => {
             <Button asChild className="bg-primary-purple px-4 py-2 rounded-lg hover:bg-primary-purple/80 !mt-16 group/hero">
               {session ? (
                 <Link href="/dashboard">
-                  Go to dashboard &nbsp;
-                  <ArrowRight size={16} className="hidden group-hover/hero:inline-block" />
+                  Go to dashboard
+                  <ArrowRight size={16} className="ml-2 hidden group-hover/hero:inline-block" />
                 </Link>
               ) : (
                 <Link href="/auth/login">
-                  Get started for free &nbsp;
-                  <ArrowRight size={16} className="hidden group-hover/hero:inline-block" />
+                  Get started for free
+                  <ArrowRight size={16} className="ml-2 hidden group-hover/hero:inline-block" />
                 </Link>
               )}
             </Button>
@@ -80,21 +81,12 @@ const Homepage = async () => {
             <p className="text-lg text-gray-500">Discover the powerful features that make our platform stand out.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Feature 1 */}
-            <div className="bg-primary-black rounded-xl shadow-md p-8">
-              <h3 className="text-xl font-semibold text-gray-400 mb-4">Real-Time Collaboration</h3>
-              <p className="text-gray-500">Work together with your team in real-time, no matter where they are.</p>
-            </div>
-            {/* Feature 2 */}
-            <div className="bg-primary-black rounded-xl shadow-md p-8">
-              <h3 className="text-xl font-semibold text-gray-400 mb-4">Intuitive Design Tools</h3>
-              <p className="text-gray-500">Create stunning UI designs effortlessly with our user-friendly tools.</p>
-            </div>
-            {/* Feature 3 */}
-            <div className="bg-primary-black rounded-xl shadow-md p-8">
-              <h3 className="text-xl font-semibold text-gray-400 mb-4">Version History</h3>
-              <p className="text-gray-500">Keep track of changes and revert back to previous versions with ease.</p>
-            </div>
+            {features.map((feature) => (
+              <div key={feature.title} className="bg-primary-black rounded-xl shadow-md p-8">
+                <h3 className="text-xl font-semibold text-gray-400 mb-4">{feature.title}</h3>
+                <p className="text-gray-500">{feature.description}</p>
+              </div>
+            ))}
           </div>
         </section>
 
@@ -104,24 +96,13 @@ const Homepage = async () => {
             <p className="text-lg text-gray-500">See what our users are saying about their experience.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Testimonial 1 */}
-            <div className="bg-primary-black rounded-xl shadow-md p-8">
-              <p className="text-gray-500">"Absolutely love the collaborative features! It has revolutionized the way our team works together."</p>
-              <p className="text-gray-400 font-semibold mt-4">John Doe</p>
-              <p className="text-gray-500 text-sm">UI Designer</p>
-            </div>
-            {/* Testimonial 2 */}
-            <div className="bg-primary-black rounded-xl shadow-md p-8">
-              <p className="text-gray-500">"The design tools are so intuitive and easy to use. I was able to create beautiful designs in no time!"</p>
-              <p className="text-gray-400 font-semibold mt-4">Jane Smith</p>
-              <p className="text-gray-500 text-sm">UX Designer</p>
-            </div>
-            {/* Testimonial 3 */}
-            <div className="bg-primary-black rounded-xl shadow-md p-8">
-              <p className="text-gray-500">"The pricing plans are so flexible and affordable. It's perfect for both individuals and teams."</p>
-              <p className="text-gray-400 font-semibold mt-4">David Johnson</p>
-              <p className="text-gray-500 text-sm">Product Manager</p>
-            </div>
+            {testimonials.map((testimonial) => (
+              <div key={testimonial.name} className="bg-primary-black rounded-xl shadow-md p-8">
+                <p className="text-gray-500">&rdquo;{testimonial.message}&ldquo;</p>
+                <p className="text-gray-400 font-semibold mt-4">{testimonial.name}</p>
+                <p className="text-gray-500 text-sm">{testimonial.role}</p>
+              </div>
+            ))}
           </div>
         </section>
 
