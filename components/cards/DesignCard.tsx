@@ -8,6 +8,7 @@ import Avatar from "@/components/liveblocks/users/Avatar";
 import { IDesign } from "@/lib/models/design.model";
 import MoreMenu from "../menus/MoreMenu";
 import { useRouter } from "next/navigation";
+import { elapsedTime } from "@/lib/utils";
 
 interface DesignCardProps {
   design: IDesign;
@@ -22,7 +23,7 @@ const DesignCard = ({ design, userId }: DesignCardProps) => {
   return (
     <div
       onClick={() => push(`/design/${design._id}`)}
-      className="flex flex-col bg-primary-grey-200 text-white rounded-xl gap-2 p-4 group cursor-pointer"
+      className="flex flex-col bg-primary-grey-200 text-gray-300 rounded-xl gap-2 p-4 group cursor-pointer"
     >
       <div className="flex-1 space-y-4">
         <div className="flex justify-between items-center gap-2">
@@ -34,11 +35,11 @@ const DesignCard = ({ design, userId }: DesignCardProps) => {
             </Button>
           </MoreMenu>
         </div>
-        <span className="text-sm text-gray-400">{design.description}</span>
+        <span className="text-sm text-gray-500">{design.description}</span>
       </div>
 
       <div className="flex justify-between items-center">
-        <span className="text-base text-gray-300">Updated on {new Date(design.updatedAt).getDate()}</span>
+        <span className="text-sm text-gray-400">Updated {elapsedTime(design.updatedAt)}</span>
 
         <Tooltip content={creator.name}>
           <Avatar src={creator.photo!} alt={creator.name} />
