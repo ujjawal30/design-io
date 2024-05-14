@@ -1,8 +1,10 @@
 "use server";
 
+import authOptions from "@/auth.config";
 import User, { IUser } from "@/lib/models/user.model";
 import { connectToDatabase } from "@/lib/mongoose";
 import { FilterQuery } from "mongoose";
+import { getServerSession } from "next-auth";
 
 export const registerUser = async ({ name, email, password }: RegisterUserParams) => {
   const response: ActionsResponse<IUser> = {
@@ -90,6 +92,10 @@ export const fetchUsers = async ({ q, userId, limit = 10 }: FetchUsersParams) =>
     data: null,
   };
 
+  if (!userId) {
+    userId = (await getServerSession(authOptions))?.user.id!;
+  }
+
   try {
     await connectToDatabase();
 
@@ -111,6 +117,34 @@ export const fetchUsers = async ({ q, userId, limit = 10 }: FetchUsersParams) =>
       response.data = JSON.parse(JSON.stringify(users));
     } else {
       response.message = "No users found.";
+    }
+  } catch (error) {
+    console.error("[FETCH_USERS_ERROR] :>> ", error);
+    response.message = "Somethng went wrong. Please try again!";
+  }
+
+  return response;
+};
+
+export const fetchUsersFromIds = async (userIds: string[], limit: number = 5) => {
+  const response: ActionsResponse<IUser[]> = {
+    status: false,
+    message: "",
+    data: null,
+  };
+
+  try {
+    await connectToDatabase();
+
+    const users = await User.find({ _id: { $in: userIds } }).limit(limit);
+
+    if (users.length > 0) {
+      response.status = true;
+      response.message = "Users fetched successfully.";
+      response.data = JSON.parse(JSON.stringify(users));
+    } else {
+      response.message = "No users found.";
+      response.data = [];
     }
   } catch (error) {
     console.error("[FETCH_USERS_ERROR] :>> ", error);

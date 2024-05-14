@@ -15,9 +15,10 @@ interface DashboardProps {
   type: DashboardPageType;
   page: number;
   totalPages: number;
+  userId: string;
 }
 
-const Dashboard = ({ designs, type, page, totalPages }: DashboardProps) => {
+const Dashboard = ({ designs, type, page, totalPages, userId }: DashboardProps) => {
   return (
     <section className="flex-1 p-4 text-white bg-primary-black rounded-xl space-y-8">
       <div className="flex justify-between items-center px-2">
@@ -44,7 +45,7 @@ const Dashboard = ({ designs, type, page, totalPages }: DashboardProps) => {
         {designs?.length ? (
           <div className="grid grid-cols-4 gap-4">
             {designs.map((design) => (
-              <DesignCard key={design._id} {...design} _id={design._id} creator={design.creator as IUser} />
+              <DesignCard key={design._id} design={design} userId={userId} />
             ))}
           </div>
         ) : (

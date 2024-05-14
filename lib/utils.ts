@@ -137,3 +137,31 @@ export function removeKeysFromQuery(queryString: string, keysToRemove: string[])
 
   return `?${qs.stringify(currentUrl)}`;
 }
+
+export function elapsedTime(date: Date) {
+  const now = new Date();
+  const inputDate = new Date(date);
+
+  const diffInSeconds = Math.floor((now.getTime() - inputDate.getTime()) / 1000);
+
+  const times = [
+    { unit: "year", seconds: 31536000 },
+    { unit: "month", seconds: 2592000 },
+    { unit: "week", seconds: 604800 },
+    { unit: "day", seconds: 86400 },
+    { unit: "hour", seconds: 3600 },
+    { unit: "minute", seconds: 60 },
+    { unit: "second", seconds: 1 },
+  ];
+
+  for (const time of times) {
+    const interval = Math.floor(diffInSeconds / time.seconds);
+    if (interval > 1) {
+      return `${interval} ${time.unit}s ago`;
+    } else if (interval === 1) {
+      return `1 ${time.unit} ago`;
+    }
+  }
+
+  return "just now";
+}

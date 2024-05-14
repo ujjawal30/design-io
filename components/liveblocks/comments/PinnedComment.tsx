@@ -5,7 +5,7 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import { ThreadData } from "@liveblocks/client";
 import { Thread } from "@liveblocks/react-comments";
 
-import { ThreadMetadata, useEditThreadMetadata } from "@/liveblocks.config";
+import { ThreadMetadata, useEditThreadMetadata, useUser } from "@/liveblocks.config";
 
 type Props = {
   thread: ThreadData<ThreadMetadata>;
@@ -15,7 +15,7 @@ type Props = {
 const PinnedComment = ({ thread, maxZIndex, ...props }: Props) => {
   const editThreadMetadata = useEditThreadMetadata();
 
-  // const { isLoading } = useUser(thread.comments[0].userId);
+  const { isLoading, user } = useUser(thread.comments[0].userId);
 
   const threadRef = useRef<HTMLDivElement>(null);
 
@@ -32,15 +32,12 @@ const PinnedComment = ({ thread, maxZIndex, ...props }: Props) => {
     });
   }, [thread, editThreadMetadata, maxZIndex]);
 
-  // if (isLoading) {
-  //   return null;
-  // }
+  if (isLoading) {
+    return null;
+  }
 
   // Open pinned threads that have just been created
-  const startMinimized = useMemo(
-    () => Number(new Date()) - Number(new Date(thread.createdAt)) > 100,
-    [thread]
-  );
+  const startMinimized = useMemo(() => Number(new Date()) - Number(new Date(thread.createdAt)) > 100, [thread]);
 
   const [minimized, setMinimized] = useState(startMinimized);
 
@@ -68,11 +65,7 @@ const PinnedComment = ({ thread, maxZIndex, ...props }: Props) => {
             handleIncreaseZIndex();
 
             // check if click is on/in the composer
-            if (
-              e.target &&
-              e.target.classList.contains("lb-icon") &&
-              e.target.classList.contains("lb-button-icon")
-            ) {
+            if (e.target && e.target.classList.contains("lb-icon") && e.target.classList.contains("lb-button-icon")) {
               return;
             }
 
@@ -83,16 +76,7 @@ const PinnedComment = ({ thread, maxZIndex, ...props }: Props) => {
             className="relative flex h-9 w-9 select-none items-center justify-center rounded-bl-full rounded-br-full rounded-tl-md rounded-tr-full bg-white shadow"
             data-draggable={true}
           >
-            <Image
-              src={`https://liveblocks.io/avatars/avatar-${Math.floor(
-                Math.random() * 30
-              )}.png`}
-              alt="Dummy Name"
-              width={28}
-              height={28}
-              draggable={false}
-              className="rounded-full"
-            />
+            <Image src={user.avatar} alt={user.name} width={28} height={28} draggable={false} className="rounded-full" />
           </div>
           {!minimized ? (
             <div className="flex min-w-60 flex-col overflow-hidden rounded-lg bg-white text-sm shadow">
@@ -102,6 +86,7 @@ const PinnedComment = ({ thread, maxZIndex, ...props }: Props) => {
                 onKeyUp={(e) => {
                   e.stopPropagation();
                 }}
+                className="thread"
               />
             </div>
           ) : null}

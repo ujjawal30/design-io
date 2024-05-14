@@ -1,36 +1,26 @@
 import { LiveMap, createClient } from "@liveblocks/client";
 import { createRoomContext, createLiveblocksContext } from "@liveblocks/react";
+import { fetchUsers, fetchUsersFromIds } from "./lib/actions/user.actions";
 
 const client = createClient({
   authEndpoint: "/api/auth/liveblocks",
   // throttle: 100,
+
   async resolveUsers({ userIds }) {
-    // Used only for Comments and Notifications. Return a list of user information
-    // retrieved from `userIds`. This info is used in comments, mentions etc.
+    const usersData = await fetchUsersFromIds(userIds);
 
-    // const usersData = await __fetchUsersFromDB__(userIds);
-    //
-    // return usersData.map((userData) => ({
-    //   name: userData.name,
-    //   avatar: userData.avatar.src,
-    // }));
-
-    return [];
+    return usersData.data?.map((userData) => ({
+      name: userData.name,
+      avatar: userData.photo,
+    }));
   },
+
   async resolveMentionSuggestions({ text }) {
-    // Used only for Comments. Return a list of userIds that match `text`.
-    // These userIds are used to create a mention list when typing in the
-    // composer.
-    //
-    // For example when you type "@jo", `text` will be `"jo"`, and
-    // you should to return an array with John and Joanna's userIds:
-    // ["john@example.com", "joanna@example.com"]
+    const users = await fetchUsers({ q: text, userId: "", limit: 5 });
 
-    // const users = await getUsers({ search: text });
-    // return users.map((user) => user.id);
-
-    return [];
+    return users.data?.map((user) => user._id) || [];
   },
+
   async resolveRoomsInfo({ roomIds }) {
     // Used only for Comments and Notifications. Return a list of room information
     // retrieved from `roomIds`.
@@ -86,9 +76,10 @@ type RoomEvent = {
 // Optionally, when using Comments, ThreadMetadata represents metadata on
 // each thread. Can only contain booleans, strings, and numbers.
 export type ThreadMetadata = {
-  // resolved: boolean;
-  // quote: string;
-  // time: number;
+  x: number;
+  y: number;
+  resolved: boolean;
+  zIndex: number;
 };
 
 // Room-level hooks, use inside `RoomProvider`

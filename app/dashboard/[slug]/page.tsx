@@ -34,7 +34,13 @@ const DashboardPage = async ({ params: { slug }, searchParams }: DashboardPagePr
     <main className="w-full h-screen flex flex-col p-2 gap-2 overflow-hidden">
       <Navbar user={session?.user!} />
 
-      <Dashboard type={slug} designs={designs.data} page={Number(searchParams?.page) || 1} totalPages={designs.totalPages || 1} />
+      <Dashboard
+        type={slug}
+        designs={designs.data}
+        page={Number(searchParams?.page) || 1}
+        totalPages={designs.totalPages || 1}
+        userId={session?.user.id!}
+      />
     </main>
   );
 };

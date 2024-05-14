@@ -4,6 +4,7 @@ import { ClientSideSuspense } from "@liveblocks/react";
 
 import { RoomProvider } from "@/liveblocks.config";
 import { LiveMap } from "@liveblocks/client";
+import Loader from "../shared/Loader";
 
 interface LiveRoomProps {
   id: string;
@@ -21,7 +22,7 @@ const LiveRoom = ({ id, children }: LiveRoomProps) => {
       }}
       initialStorage={{ canvasObject: new LiveMap() }}
     >
-      <ClientSideSuspense fallback={<div>Loading…</div>}>{() => children}</ClientSideSuspense>
+      <ClientSideSuspense fallback={<Loader />}>{() => children}</ClientSideSuspense>
     </RoomProvider>
   );
 };
