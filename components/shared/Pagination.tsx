@@ -75,7 +75,7 @@ const Pagination = ({ page, totalPages = 1 }: PaginationProps) => {
         )}
 
         {getPageNumbers().map((pageNumber) => (
-          <PaginationItem>
+          <PaginationItem key={pageNumber}>
             <Button
               className={cn("size-10 hover:bg-primary-purple hover:text-white", pageNumber === page ? "bg-primary-purple" : "bg-primary-grey-200")}
               onClick={() => onPageChange(pageNumber)}

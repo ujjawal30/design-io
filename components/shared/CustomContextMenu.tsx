@@ -1,11 +1,5 @@
 import { contextMenuCommands } from "@/constants";
-import {
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuShortcut,
-  ContextMenuTrigger,
-} from "@/components/ui/context-menu";
+import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuShortcut, ContextMenuTrigger } from "@/components/ui/context-menu";
 
 interface CustomContextMenuProps {
   children: React.ReactElement;
@@ -43,6 +37,7 @@ const CustomContextMenu = ({
       <ContextMenuContent className="flex w-80 flex-col gap-y-1 border-none bg-primary-black py-4 text-white">
         {contextMenuCommands.map((command) => (
           <ContextMenuItem
+            key={command.label}
             className="flex justify-between px-3 py-2 hover:!bg-primary-grey-200 hover:!text-white"
             onClick={() => handleContextMenuTrigger(command.label)}
           >

@@ -38,7 +38,7 @@ const DesignDetailModal = () => {
             <span className="col-span-2 font-semibold">Collaborators ({design?.collaborators.length})</span>
             <div className="col-span-3 text-gray-300 flex flex-col gap-2">
               {design?.collaborators.map((collablorator) => (
-                <div className="flex items-center gap-2">
+                <div key={collablorator._id} className="flex items-center gap-2">
                   <Avatar src={collablorator.photo!} size={28} alt={collablorator.name!} />
                   {collablorator.name}
                 </div>

@@ -12,11 +12,8 @@ const LoginPage = () => {
       <LoginForm />
 
       <p className="text-gray-300 text-sm">
-        Don't have an account?
-        <Link
-          href="/auth/register"
-          className="text-primary-purple font-semibold ml-2 cursor-pointer"
-        >
+        Don&apos;t have an account?
+        <Link href="/auth/register" className="text-primary-purple font-semibold ml-2 cursor-pointer">
           Register Here.
         </Link>
       </p>
