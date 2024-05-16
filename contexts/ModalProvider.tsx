@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import DesignMetadataModal from "@/components/modals/DesignMetadataModal";
 import DesignDetailModal from "@/components/modals/DesignDetailModal";
+import DeleteConfirmation from "@/components/modals/DeleteConfirmation";
 
 const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -18,6 +19,7 @@ const ModalProvider = () => {
     <>
       <DesignMetadataModal />
       <DesignDetailModal />
+      <DeleteConfirmation />
     </>
   );
 };

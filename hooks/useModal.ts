@@ -20,3 +20,10 @@ export const viewDetailsModal = create<useModalStore>((set) => ({
   onOpen: (design) => set({ isOpen: true, design: design }),
   onClose: () => set({ isOpen: false, design: null }),
 }));
+
+export const confirmDeleteModal = create<useModalStore>((set) => ({
+  isOpen: false,
+  design: null,
+  onOpen: (design) => set({ isOpen: true, design: design }),
+  onClose: () => set({ isOpen: false, design: null }),
+}));
