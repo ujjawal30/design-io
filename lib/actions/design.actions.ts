@@ -244,3 +244,35 @@ export const fetchDesigns = async ({
 
   return response;
 };
+
+export const deleteDesign = async (designId: string) => {
+  const response: ActionsResponse<IDesign> = {
+    status: false,
+    message: "",
+    data: null,
+  };
+
+  if (!designId) {
+    response.message = "Invalid request.";
+    return response;
+  }
+
+  try {
+    await connectToDatabase();
+
+    const deletedDesign = await Design.findByIdAndDelete(designId);
+
+    if (deletedDesign) {
+      revalidatePath("/dashboard/recently-viewed");
+
+      response.status = true;
+      response.message = "Design deleted successfully.";
+    } else {
+      response.message = "Design not found.";
+    }
+  } catch (error) {
+    console.error("[DELETE_DESIGN_ERROR] :>> ", error);
+    response.message = "Somethng went wrong. Please try again!";
+  }
+  return response;
+};

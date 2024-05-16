@@ -1,8 +1,8 @@
 "use client";
 
-import { EditIcon, HomeIcon, InfoIcon, PlusCircleIcon, SquareArrowOutUpRightIcon, TrashIcon } from "lucide-react";
+import { EditIcon, InfoIcon, TrashIcon } from "lucide-react";
 
-import { editMetadataModal, viewDetailsModal } from "@/hooks/useModal";
+import { confirmDeleteModal, editMetadataModal, viewDetailsModal } from "@/hooks/useModal";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 interface MoreMenuProps {
@@ -14,9 +14,11 @@ interface MoreMenuProps {
 const MoreMenu = ({ children, design, isCreator }: MoreMenuProps) => {
   const editMetadata = editMetadataModal();
   const viewDetails = viewDetailsModal();
+  const confirmDelete = confirmDeleteModal();
 
   const handleEditClick = () => editMetadata.onOpen(design);
   const handleDetailClick = () => viewDetails.onOpen(design);
+  const handleDeleteClick = () => confirmDelete.onOpen(design);
 
   return (
     <DropdownMenu>
@@ -33,7 +35,7 @@ const MoreMenu = ({ children, design, isCreator }: MoreMenuProps) => {
               <span>Edit</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="gap-4 text-red-500 hover:!text-red-500">
+            <DropdownMenuItem className="gap-4 text-red-500 hover:!text-red-500 hover:!bg-red-500/10" onClick={handleDeleteClick}>
               <TrashIcon size={20} />
               <span>Delete</span>
             </DropdownMenuItem>
