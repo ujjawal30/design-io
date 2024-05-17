@@ -43,7 +43,7 @@ const Dashboard = ({ designs, type, page, totalPages, userId }: DashboardProps) 
 
       <div className="w-full px-2">
         {designs?.length ? (
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {designs.map((design) => (
               <DesignCard key={design._id} design={design} userId={userId} />
             ))}
