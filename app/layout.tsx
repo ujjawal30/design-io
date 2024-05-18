@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
     <html lang="en">
-      <body className={cn(poppins.className, "bg-primary-grey-200")}>
+      <body className={cn(poppins.className, "bg-primary-grey-200 overflow-hidden")}>
         <NextAuthProvider>
           {children}
           <ModalProvider />

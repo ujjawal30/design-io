@@ -20,7 +20,7 @@ interface DashboardProps {
 
 const Dashboard = ({ designs, type, page, totalPages, userId }: DashboardProps) => {
   return (
-    <section className="flex-1 p-4 text-white bg-primary-black rounded-xl space-y-8">
+    <section className="h-screen flex-1 p-4 text-white bg-primary-black rounded-xl space-y-8 overflow-auto">
       <div className="flex justify-between items-center px-2">
         <div className="flex items-center gap-4">
           {dashboardPageTypes.map((page) => (
