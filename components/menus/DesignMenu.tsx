@@ -1,10 +1,11 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { EditIcon, HomeIcon, InfoIcon, PlusCircleIcon, SquareArrowOutUpRightIcon, TrashIcon } from "lucide-react";
 
+import { exportToPDF } from "@/lib/utils";
 import { confirmDeleteModal, editMetadataModal, viewDetailsModal } from "@/hooks/useModal";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { useRouter } from "next/navigation";
 
 interface DesignMenuProps {
   children: React.ReactElement;
@@ -45,7 +46,7 @@ const DesignMenu = ({ children, design, isCreator }: DesignMenuProps) => {
           <InfoIcon size={20} />
           <span>Details</span>
         </DropdownMenuItem>
-        <DropdownMenuItem className="gap-4">
+        <DropdownMenuItem className="gap-4" onClick={exportToPDF}>
           <SquareArrowOutUpRightIcon size={20} />
           <span>Export</span>
         </DropdownMenuItem>
