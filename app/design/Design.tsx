@@ -23,7 +23,6 @@ import {
 import { handleDelete, handleKeyDown } from "@/lib/events";
 import { handleImageUpload as handleImage } from "@/lib/shapes";
 
-import Topbar from "@/components/shared/Topbar";
 import LeftSidebar from "@/components/shared/LeftSidebar";
 import RightSidebar from "@/components/shared/RightSidebar";
 import LiveContainer from "@/components/liveblocks/LiveContainer";

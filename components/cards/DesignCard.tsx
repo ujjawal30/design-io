@@ -1,14 +1,14 @@
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { MoreVerticalIcon } from "lucide-react";
 
+import { elapsedTime } from "@/lib/utils";
+import { IDesign } from "@/lib/models/design.model";
 import { IUser } from "@/lib/models/user.model";
+
 import { Button } from "@/components/ui/button";
 import { Tooltip } from "@/components/ui/tooltip";
 import Avatar from "@/components/liveblocks/users/Avatar";
-import { IDesign } from "@/lib/models/design.model";
-import MoreMenu from "../menus/MoreMenu";
-import { useRouter } from "next/navigation";
-import { elapsedTime } from "@/lib/utils";
+import MoreMenu from "@/components/menus/MoreMenu";
 
 interface DesignCardProps {
   design: IDesign;

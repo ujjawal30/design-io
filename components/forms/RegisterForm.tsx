@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { RegisterSchema, RegisterSchemaType } from "@/lib/schemas/register.schema";
 import { registerUser } from "@/lib/actions/user.actions";
+
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
