@@ -1,10 +1,9 @@
 import { useState } from "react";
-import Image from "next/image";
 import { LoaderIcon, PlusIcon, XIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import Avatar from "../liveblocks/users/Avatar";
+import Avatar from "@/components/liveblocks/users/Avatar";
 
 interface UserCardProps extends UserProps {
   role: "creator" | "collaborator" | "none";
